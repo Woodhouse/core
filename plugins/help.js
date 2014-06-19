@@ -1,5 +1,4 @@
-module.exports = function(func){
-    var api = func;
+module.exports = function(api){
 
     api.listen('help', function(from, message){
         api.sendMessage('Yes Sir?', 'hangouts', from);
