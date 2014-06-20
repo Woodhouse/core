@@ -10,6 +10,6 @@ module.exports = function(api){
     });
 
     bot.on('message', function(from, message) {
-        api.messageRecieved(from, message)
+        api.messageRecieved(from, 'hangouts', message)
     });
 }

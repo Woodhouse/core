@@ -1,10 +1,10 @@
 module.exports = function(api){
 
-    api.listen('say (.+?)', function(from, message){
-        api.sendMessage(message[0], 'hangouts', from);
+    api.listen('say (.+?)', function(from, interface, message){
+        api.sendMessage(message[0], interface, from);
     })
 
-    api.listen('who steals cars\\?', function(from, message){
-        api.sendMessage('GYPPOS!', 'hangouts', from);
+    api.listen('who steals cars\\?', function(from, interface, message){
+        api.sendMessage('GYPPOS!', interface, from);
     })
 }
