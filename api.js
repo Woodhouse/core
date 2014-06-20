@@ -1,6 +1,7 @@
 var api = function(){
     this.listeners = [];
     this.messageSenders = {};
+    this.yesNoQuestions = [];
 };
 
 api.prototype.listen = function(listener, command){
@@ -30,6 +31,18 @@ api.prototype.sendMessage = function(message, sender, to){
             this.messageSenders[sender](message, to);
         }
     }
+}
+
+api.prototype.addYesNoQuestion = function(question, yesCallback, noCallback){
+    this.yesNoQuestions.push({question: question, yesCallback: yesCallback, noCallback: noCallback});
+}
+
+api.prototype.removeLastYesNoQuestion = function(){
+    this.yesNoQuestions.pop();
+}
+
+api.prototype.returnLastYesNoQuestion = function(){
+    return this.yesNoQuestions[this.yesNoQuestions.length - 1];
 }
 
 module.exports = api;
