@@ -4,7 +4,8 @@
   "description": "Your robot butler",
   "main": "index.js",
   "dependencies": {
-    "hangouts-bot": "~0.1.0"
+    "hangouts-bot": "~0.1.0",
+    "nedb": "~0.10.5"
   },
   "devDependencies": {},
   "scripts": {

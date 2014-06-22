@@ -3,16 +3,26 @@ var api = new Api();
 var fs = require("fs")
 
 fs.readdirSync("./interfaces").forEach(function(file) {
-    require("./interfaces/" + file)(api);
+    fs.stat("./interfaces/" + file, function(err, stats){
+        if (stats.isDirectory()) {
+            require("./interfaces/" + file)(api);
+        }
+    });
 });
 fs.readdirSync("./plugins").forEach(function(file) {
-    require("./plugins/" + file)(api);
+    fs.stat("./plugins/" + file, function(err, stats){
+        if (stats.isDirectory()) {
+            require("./plugins/" + file)(api);
+        }
+    });
 });
 
 api.listen('yes', function(from, message){
     var yesNoQuestion = api.returnLastYesNoQuestion();
     if (yesNoQuestion) {
-        yesNoQuestion.yesCallback();
+        if (typeof yesNoQuestion.yesCallback === 'function') {
+            yesNoQuestion.yesCallback();
+        }
         api.removeLastYesNoQuestion();
     }
 });
@@ -20,7 +30,9 @@ api.listen('yes', function(from, message){
 api.listen('no', function(from, message){
     var yesNoQuestion = api.returnLastYesNoQuestion();
     if (yesNoQuestion) {
-        yesNoQuestion.noCallback();
+        if (typeof yesNoQuestion.noCallback === 'function') {
+            yesNoQuestion.noCallback();
+        }
         api.removeLastYesNoQuestion();
     }
 });
