@@ -2,6 +2,7 @@ var api = function(){
     this.listeners = [];
     this.messageSenders = {};
     this.yesNoQuestions = [];
+    this.name = 'woodhouse';
 };
 
 api.prototype.listen = function(listener, command){
@@ -10,7 +11,7 @@ api.prototype.listen = function(listener, command){
 
 api.prototype.messageRecieved = function(from, interface, message) {
     for (var i = 0, len = this.listeners.length; i < len; i++) {
-        var regex = new RegExp("woodhouse "+ this.listeners[i].listener + "$", 'i'),
+        var regex = new RegExp("^" + this.name + " "+ this.listeners[i].listener + "$", 'i'),
             match = regex.exec(message);
         if (match) {
             match.shift();
