@@ -1,0 +1,3 @@
+[submodule "interfaces/hangouts"]
+	path = interfaces/hangouts
+	url = git://github.com/lukeb-uk/woodhouse-hangouts.git
