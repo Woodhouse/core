@@ -1,5 +1,4 @@
-var Api = require('./api');
-var api = new Api();
+var api = require('./api');
 var fs = require("fs");
 
 require('./lib/yesno.js')(api);
