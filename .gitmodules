@@ -1,9 +1,0 @@
-[submodule "interfaces/hangouts"]
-	path = interfaces/hangouts
-	url = git://github.com/lukeb-uk/woodhouse-hangouts.git
-[submodule "plugins/isup"]
-	path = plugins/isup
-	url = git://github.com/lukeb-uk/woodhouse-isup.git
-[submodule "interfaces/hipchat"]
-	path = interfaces/hipchat
-	url = https://github.com/lukeb-uk/woodhouse-hipchat.git
