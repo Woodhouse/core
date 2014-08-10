@@ -5,7 +5,9 @@
   "main": "index.js",
   "dependencies": {
     "hangouts-bot": "~0.1.0",
-    "nedb": "~0.10.5"
+    "nedb": "~0.10.5",
+    "express": "~4.6.1",
+    "body-parser": "~1.4.3"
   },
   "devDependencies": {},
   "scripts": {

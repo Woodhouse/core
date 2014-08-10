@@ -1,0 +1,14 @@
+<table>
+    <thead>
+        <th>Name</th>
+        <th>Enabled</th>
+    </thead>
+    <tbody>
+    {{#each}}
+        <tr>
+            <td>{{link-to name 'interfaces.show' this}}</td>
+            <td>{{enabled}}</td>
+        </tr>
+    {{/each}}
+    </tbody>
+</table>

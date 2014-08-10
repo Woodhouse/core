@@ -1,25 +1,35 @@
-module.exports = function(api) {
-    var readline = require('readline');
-    var stdin = process.openStdin();
-    var stdout = process.stdout;
-    var cli = readline.createInterface(stdin, stdout, null);
+module.exports = function() {
 
-    api.addMessageSender('shell', function(message, to){
-        console.log('\n' + message);
-        cli.prompt(true);
-    });
+    this.name = 'shell';
 
-    cli.on('line', function(command){
-        cli.prompt(true);
-        api.messageRecieved(null, 'shell', 'woodhouse ' + command)
-    });
+    this.init = function() {
+        var readline = require('readline');
+        var stdin = process.openStdin();
+        var stdout = process.stdout;
+        var cli = readline.createInterface(stdin, stdout, null);
+        var self = this;
 
-    cli.on('close', function() {
-        stdin.destroy();
-        console.log('');
-        process.exit(0);
-    });
+        this.api.addMessageSender('shell', function(message, to){
+            console.log('\n' + message);
+            cli.prompt(true);
+        });
 
-    cli.setPrompt("" + api.name + " > ");
-    cli.prompt();
+        cli.on('line', function(command){
+            cli.prompt(true);
+            self.api.messageRecieved(null, 'shell', 'woodhouse ' + command)
+        });
+
+        cli.on('close', function() {
+            stdin.destroy();
+            console.log('');
+            process.exit(0);
+        });
+
+        cli.setPrompt("" + this.api.name + " > ");
+        cli.prompt();
+    }
+
+    return this;
 }
+
+
