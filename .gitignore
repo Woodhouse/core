@@ -1,17 +1,17 @@
 # See http://help.github.com/ignore-files/ for more about ignoring files.
 
 # compiled output
-/dist
-/tmp
+/admin/dist
+/admin/tmp
 
 # dependencies
-/node_modules
-/vendor/*
+*/node_modules
+/admin/vendor/*
 
 # misc
-/.sass-cache
-/connect.lock
-/coverage/*
-/libpeerconnection.log
+/admin/.sass-cache
+/admin/connect.lock
+/admin/coverage/*
+/admin/libpeerconnection.log
 npm-debug.log
 testem.log
