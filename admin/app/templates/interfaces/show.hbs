@@ -1,3 +1,7 @@
+<ol class="breadcrumb">
+  <li>{{#link-to 'interfaces'}}Interfaces{{/link-to}}</li>
+  <li class="active">{{name}}</li>
+</ol>
 <h1>{{name}}</h1>
 {{#each uiMessage}}
     <div {{bind-attr class=":alert typeClass"}} role="alert">{{text}}</div>
@@ -25,7 +29,7 @@
     </div>
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button type="button" class="btn btn-default pull-right" {{action "save"}}>Save</button>
+          <button type="button" class="btn btn-primary pull-right" {{action "save"}}>Save</button>
         </div>
       </div>
 </form>
