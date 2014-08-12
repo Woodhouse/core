@@ -1,10 +1,11 @@
-module.exports = function(api){
+module.exports = function(){
 
     this.name = 'help';
 
     this.init = function(){
-        api.listen('help', function(from, interface, message){
-            api.sendMessage('Yes Sir?', interface, from);
+        var self = this;
+        this.api.listen('help', function(from, interface, message){
+            self.api.sendMessage('Yes Sir?', interface, from);
         })
     }
 
