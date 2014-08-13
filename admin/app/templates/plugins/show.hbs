@@ -1,0 +1,35 @@
+<ol class="breadcrumb">
+  <li>{{#link-to 'plugins'}}Plugins{{/link-to}}</li>
+  <li class="active">{{name}}</li>
+</ol>
+<h1>{{name}}</h1>
+{{#each uiMessage}}
+    <div {{bind-attr class=":alert typeClass"}} role="alert">{{text}}</div>
+{{/each}}
+<form class="form-horizontal" role="form">
+    {{#each prefs}}
+        <div class="form-group">
+            <label {{bind-attr for="id"}} class="col-sm-2 control-label">{{name}}</label>
+            <div class="col-sm-10">
+                {{#if isPassword}}
+                    {{input type="password" class="form-control" id=id value=value}}
+                {{/if}}
+
+                {{#if isText}}
+                    {{input type="email" class="form-control" id=id placeholder=name value=value}}
+                {{/if}}
+            </div>
+        </div>
+    {{/each}}
+    <div class="form-group">
+        <label class="col-sm-2 control-label" for="enabled">Enabled</label>
+        <div class="col-sm-10">
+            {{input type="checkbox" id="enabled" checked=enabled}}
+        </div>
+    </div>
+    <div class="form-group">
+        <div class="col-sm-offset-2 col-sm-10">
+          <button type="button" class="btn btn-primary pull-right" {{action "save"}}>Save</button>
+        </div>
+      </div>
+</form>
