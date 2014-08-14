@@ -1,0 +1,30 @@
+@import (reference) '../../vendor/bootstrap/less/bootstrap.less';
+
+html, body {
+  margin: 0px;
+}
+
+a {
+    cursor: pointer;
+}
+
+.module-list {
+    width: 100%;
+
+    .enabled- {
+        &false{
+            .glyphicon;
+            .glyphicon-remove-circle;
+            color: red;
+            font-size: 20px;
+        }
+
+        &true {
+            .glyphicon;
+            .glyphicon-ok-circle;
+            color: green;
+            font-size: 20px;
+        }
+
+    }
+}

@@ -1,4 +1,4 @@
-<table>
+<table class="module-list">
     <thead>
         <th>Name</th>
         <th>Enabled</th>
@@ -7,7 +7,7 @@
     {{#each}}
         <tr>
             <td>{{link-to name 'interfaces.show' this}}</td>
-            <td>{{enabled}}</td>
+            <td><i {{bind-attr class='enabledClass'}}></i></td>
         </tr>
     {{/each}}
     </tbody>

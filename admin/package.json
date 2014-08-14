@@ -26,6 +26,11 @@
     "ember-cli-ic-ajax": "0.1.1",
     "express": "^4.1.1",
     "glob": "^3.2.9",
-    "originate": "0.1.5"
+    "originate": "0.1.5",
+    "broccoli-less-single": "~0.1.4"
+  },
+  "dependencies": {
+    "broccoli-merge-trees": "~0.1.4",
+    "broccoli-static-compiler": "~0.1.4"
   }
 }
