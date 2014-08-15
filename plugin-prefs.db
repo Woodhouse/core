@@ -1,2 +1,2 @@
-{"name":"help","enabled":true,"prefs":[],"_id":"nuzLF1eTfOT3y8Ka"}
-{"name":"say","enabled":true,"prefs":[],"_id":"zAJEtxIWFaNlhxJ4"}
+{"name":"help","displayname":"Help","description":null,"enabled":true,"prefs":[],"_id":"D4YmBppX8lXbSgu7"}
+{"name":"say","displayname":"Say","description":"Make woodhouse say things back to you","enabled":true,"prefs":[],"_id":"GUn9xxHV0zQnKt1C"}

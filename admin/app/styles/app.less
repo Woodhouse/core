@@ -8,19 +8,21 @@ a {
     cursor: pointer;
 }
 
-.module-list {
+.module-item {
     width: 100%;
+
+    h2 {
+        display: inline-block;
+    }
 
     .enabled- {
         &false{
-            .glyphicon;
             .glyphicon-remove-circle;
             color: red;
             font-size: 20px;
         }
 
         &true {
-            .glyphicon;
             .glyphicon-ok-circle;
             color: green;
             font-size: 20px;

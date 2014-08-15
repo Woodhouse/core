@@ -1,6 +1,8 @@
 module.exports = function() {
 
     this.name = 'shell';
+    this.displayname = 'Shell';
+    this.description = 'Issue commands through the command line';
 
     this.init = function() {
         var readline = require('readline');

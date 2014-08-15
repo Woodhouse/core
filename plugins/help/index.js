@@ -1,6 +1,7 @@
 module.exports = function(){
 
     this.name = 'help';
+    this.displayname = 'Help';
 
     this.init = function(){
         var self = this;

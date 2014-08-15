@@ -1,6 +1,8 @@
 module.exports = function(){
 
     this.name = 'say';
+    this.displayname = 'Say';
+    this.description = 'Make woodhouse say things back to you';
 
     this.init = function(){
         var self = this;
