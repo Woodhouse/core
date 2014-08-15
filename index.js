@@ -15,19 +15,11 @@ var api = require('./lib/api')(deps);
 require('./lib/yesno.js')(api);
 require('./admin/')(deps)
 
-fs.readdirSync("./interfaces").forEach(function(file) {
-    fs.stat("./interfaces/" + file, function(err, stats){
-        if (stats.isDirectory()) {
-            api.loadInterface(file);
+var moduleTypes = ['interfaces', 'plugins'];
+for (var i = 0, len = moduleTypes.length; i < len; i++) {
+    fs.readdirSync("./" + moduleTypes[i]).forEach(function(file) {
+        if (fs.statSync("./" + moduleTypes[i] + "/" + file).isDirectory()) {
+            api.loadModule(file, moduleTypes[i]);
         }
     });
-});
-
-fs.readdirSync("./plugins").forEach(function(file) {
-    fs.stat("./plugins/" + file, function(err, stats){
-        if (stats.isDirectory()) {
-            api.loadPlugin(file);
-        }
-    });
-});
-
+}
