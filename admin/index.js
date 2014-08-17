@@ -5,7 +5,8 @@ var fs = require('fs');
 var interfacePrefs,
     pluginPrefs,
     promise,
-    deps;
+    deps,
+    api;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
@@ -41,5 +42,6 @@ module.exports = function(options){
     interfacePrefs = options.interfacePrefs;
     pluginPrefs = options.pluginPrefs;
     promise = options.promise;
+    api = options.api;
     deps = options;
 }

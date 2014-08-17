@@ -1,3 +1,5 @@
+var clone = require('clone');
+
 module.exports = function(deps){
 
     this.get = function(params){
@@ -34,29 +36,30 @@ module.exports = function(deps){
 
     this.formatDoc = function(doc){
         var prefs = [],
-            prefIds = [];
+            prefIds = [],
+            newDoc = clone(doc);
 
-        doc.id = doc.name;
-        delete doc._id;
+        newDoc.id = newDoc.name;
+        delete newDoc._id;
 
-        if (typeof doc.prefs !== 'undefined') {
+        if (typeof newDoc.prefs !== 'undefined') {
 
-            for (var a = 0, preflen = doc.prefs.length; a < preflen; a++) {
-                doc.prefs[a].id = doc.name + doc.prefs[a].name;
-                doc.prefs[a].interface = doc.id;
+            for (var a = 0, preflen = newDoc.prefs.length; a < preflen; a++) {
+                newDoc.prefs[a].id = newDoc.name + newDoc.prefs[a].name;
+                newDoc.prefs[a].interface = newDoc.id;
 
-                if (doc.prefs[a].type === 'password') {
-                    doc.prefs[a].value = '';
+                if (newDoc.prefs[a].type === 'password') {
+                    newDoc.prefs[a].value = '';
                 }
 
-                prefs.push(doc.prefs[a]);
-                prefIds.push(doc.prefs[a].id);
+                prefs.push(newDoc.prefs[a]);
+                prefIds.push(newDoc.prefs[a].id);
             }
 
         }
-        doc.prefs = prefIds;
+        newDoc.prefs = prefIds;
 
-        return {interfaces: doc, prefs: prefs};
+        return {interfaces: newDoc, prefs: prefs};
     }
 
     this.put = function(params, body){
@@ -69,6 +72,7 @@ module.exports = function(deps){
         var self = this;
         return deps.interfacePrefs.updateAsync({name: params[0]}, {$set: body.interface}).then(function(){
             return deps.interfacePrefs.findOneAsync({name: params[0]}).then(function(doc){
+                deps.api.reloadModule(doc.name, 'interfaces');
                 return self.formatDoc(doc);
             });
         });

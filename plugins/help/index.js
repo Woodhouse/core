@@ -5,8 +5,8 @@ module.exports = function(){
 
     this.init = function(){
         var self = this;
-        this.api.listen('help', function(from, interface, message){
-            self.api.sendMessage('Yes Sir?', interface, from);
+        this.listen('help', function(from, interface, message){
+            self.sendMessage('Yes Sir?', interface, from);
         })
     }
 

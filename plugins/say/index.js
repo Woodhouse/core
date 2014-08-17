@@ -6,13 +6,14 @@ module.exports = function(){
 
     this.init = function(){
         var self = this;
-        this.api.listen('say (.+?)', function(from, interface, params){
-            self.api.sendMessage(params[0], interface, from);
+        this.listen('say (.+?)', function(from, interface, params){
+            self.sendMessage(params[0], interface, from);
         })
 
-        this.api.listen('who steals cars\\?', function(from, interface){
-            self.api.sendMessage('GYPPOS!', interface, from);
+        this.listen('who steals cars\\?', function(from, interface){
+            self.sendMessage('GYPPOS!', interface, from);
         })
+
     }
 
     return this;

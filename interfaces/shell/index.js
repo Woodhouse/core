@@ -11,14 +11,14 @@ module.exports = function() {
         var cli = readline.createInterface(stdin, stdout, null);
         var self = this;
 
-        this.api.addMessageSender('shell', function(message, to){
+        this.addMessageSender('shell', function(message, to){
             console.log('\n' + message);
             cli.prompt(true);
         });
 
         cli.on('line', function(command){
             cli.prompt(true);
-            self.api.messageRecieved(null, 'shell', 'woodhouse ' + command)
+            self.messageRecieved(null, 'shell', 'woodhouse ' + command)
         });
 
         cli.on('close', function() {
