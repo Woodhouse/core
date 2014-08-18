@@ -5,6 +5,7 @@ export default DS.Model.extend({
   type: DS.attr('string'),
   value: DS.attr('string'),
   interface: DS.belongsTo('interface'),
+  plugin: DS.belongsTo('plugin'),
   isPassword: function(){
     return this.get('type') === 'password';
   }.property('type'),

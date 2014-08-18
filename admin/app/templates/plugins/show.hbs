@@ -8,18 +8,7 @@
 {{/each}}
 <form class="form-horizontal" role="form">
     {{#each prefs}}
-        <div class="form-group">
-            <label {{bind-attr for="id"}} class="col-sm-2 control-label">{{name}}</label>
-            <div class="col-sm-10">
-                {{#if isPassword}}
-                    {{input type="password" class="form-control" id=id value=value}}
-                {{/if}}
-
-                {{#if isText}}
-                    {{input type="email" class="form-control" id=id placeholder=name value=value}}
-                {{/if}}
-            </div>
-        </div>
+        {{partial "pref"}}
     {{/each}}
     <div class="form-group">
         <label class="col-sm-2 control-label" for="enabled">Enabled</label>
