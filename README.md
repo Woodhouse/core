@@ -10,11 +10,11 @@ This readme should help you get the basics of Woodhouse up and running
 ## Running
 
 * `node index.js`
-* View the web interface at [http://localhost:8080]()
+* View the web interface at [http://localhost:8080](http://localhost:8080)
 
 ## Interfaces and plugins
 
 * Clone the interface/plugin into the relevant directory.
 * `npm install` within the cloned directory
 * Restart Woodhouse
-* Go to [http://localhost:8080](), navigate to the module/plugin you just installed, check the enabled box and click save.
+* Go to [http://localhost:8080](http://localhost:8080), navigate to the module/plugin you just installed, check the enabled box and click save.
