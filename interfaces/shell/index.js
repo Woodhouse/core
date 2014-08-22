@@ -14,14 +14,14 @@ shell.prototype.init = function() {
 
     this.cli = readline.createInterface(stdin, stdout, null);
 
-    this.addMessageSender('shell', function(message, to){
+    this.addMessageSender(function(message, to){
         console.log('\n' + message);
         self.cli.prompt(true);
     });
 
     this.cli.on('line', function(command){
         self.cli.prompt(true);
-        self.messageRecieved(null, 'shell', 'woodhouse ' + command)
+        self.messageRecieved(null, 'woodhouse ' + command)
     });
 
     this.cli.on('close', function() {
