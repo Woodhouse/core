@@ -37,6 +37,7 @@ module.exports = function(deps){
     this.formatDoc = function(doc){
         var prefs = [],
             prefIds = [],
+            newPrefsTemplateIds = [],
             newDoc = clone(doc);
 
         newDoc.id = newDoc.name;
@@ -46,6 +47,9 @@ module.exports = function(deps){
 
             for (var a = 0, preflen = newDoc.prefs.length; a < preflen; a++) {
                 newDoc.prefs[a].id = newDoc.name + newDoc.prefs[a].name;
+                if (newDoc.prefs[a].group) {
+                    newDoc.prefs[a].id += newDoc.prefs[a].group;
+                }
                 newDoc.prefs[a].plugin = newDoc.id;
 
                 if (newDoc.prefs[a].type === 'password') {
@@ -59,6 +63,17 @@ module.exports = function(deps){
         }
         newDoc.prefs = prefIds;
 
+        if (typeof newDoc.newPrefsTemplate !== 'undefined') {
+            for (var a = 0, preflen = newDoc.newPrefsTemplate.length; a < preflen; a++) {
+                newDoc.newPrefsTemplate[a].id = newDoc.name + newDoc.newPrefsTemplate[a].name;
+                newDoc.newPrefsTemplate[a].plugin = newDoc.id;
+
+                prefs.push(newDoc.newPrefsTemplate[a]);
+                newPrefsTemplateIds.push(newDoc.newPrefsTemplate[a].id);
+            }
+
+        }
+        newDoc.newPrefsTemplate = newPrefsTemplateIds
         return {plugins: newDoc, prefs: prefs};
     }
 
