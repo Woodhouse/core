@@ -37,6 +37,7 @@ module.exports = function(deps){
     this.formatDoc = function(doc){
         var prefs = [],
             prefIds = [],
+            newPrefsTemplateIds = [],
             newDoc = clone(doc);
 
         newDoc.id = newDoc.name;

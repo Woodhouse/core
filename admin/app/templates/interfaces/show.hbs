@@ -7,9 +7,18 @@
     <div {{bind-attr class=":alert typeClass"}} role="alert">{{text}}</div>
 {{/each}}
 <form class="form-horizontal" role="form">
-    {{#each prefs}}
-        {{partial "pref"}}
+    {{#each getGroupedPrefs}}
+        {{#each}}
+            {{partial "pref"}}
+        {{/each}}
     {{/each}}
+    {{#if canAddNewPrefs}}
+        <div class="form-group">
+            <div class="col-sm-offset-2 col-sm-10">
+                <button type="button" class="btn btn-primary pull-right" {{action "addNewPrefs"}}>Add +</button>
+            </div>
+        </div>
+    {{/if}}
     <div class="form-group">
         <label class="col-sm-2 control-label" for="enabled">Enabled</label>
         <div class="col-sm-10">
