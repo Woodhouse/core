@@ -17,6 +17,7 @@ export default Ember.ObjectController.extend({
             this.get('model.newPrefsTemplate').forEach(function(item){
                 var group = self.get('model.name') + self.get('model.getGroupedPrefs').length;
                 prefs.push({
+                    id: self.get('model.name') + item.get('name') + group,
                     name: item.get('name'),
                     type: item.get('type'),
                     value: item.get('value'),
