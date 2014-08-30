@@ -24,7 +24,8 @@ export default Ember.ObjectController.extend({
                     interface: self.get('model'),
                     group: group
                 });
-            })
+            });
+
             for (var i = 0, len = prefs.length; i < len; i++) {
                 var pref = this.store.createRecord('pref', prefs[i]);
                 this.get('model.prefs').pushObject(pref);
