@@ -5,5 +5,7 @@ export default DS.Model.extend({
     type: DS.attr('string'),
     typeClass: function(){
         return 'alert-' + this.get('type');
-    }.property('type')
+    }.property('type'),
+    interface: DS.belongsTo('interface', {inverse: 'uiMessage'}),
+    plugin: DS.belongsTo('plugin', {inverse: 'uiMessage'})
 });
