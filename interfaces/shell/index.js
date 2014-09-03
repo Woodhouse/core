@@ -21,7 +21,13 @@ shell.prototype.init = function() {
 
     this.cli.on('line', function(command){
         self.cli.prompt(true);
-        self.messageRecieved(null, 'woodhouse ' + command)
+        if (command.match("load modules")){
+            console.log('\nLoading new modules')
+            self.cli.prompt(true);
+            self.api.getModules();
+        } else {
+            self.messageRecieved(null, 'woodhouse ' + command)
+        }
     });
 
     this.cli.on('close', function() {
