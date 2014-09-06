@@ -16,5 +16,6 @@ This readme should help you get the basics of Woodhouse up and running
 
 * Clone the interface/plugin into the relevant directory.
 * `npm install` within the cloned directory
-* Restart Woodhouse
+* If Woodhouse isn't already started, start it and skip to the last step
+* If you have the shell interface enabled (enabled by default), run `load modules`, otherwise restart Woodhouse
 * Go to [http://localhost:8080](http://localhost:8080), navigate to the module/plugin you just installed, check the enabled box and click save.
