@@ -19,8 +19,8 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         name: doc.value
     });
 
-    require('./lib/yesno.js')(api);
-    require('./lib/loadmodules.js')(api);
+    require('./lib/core_listeners.js')(api);
+
     require('./admin/')({
         promise: promise,
         interfacePrefs: interfacePrefs,
