@@ -5,7 +5,7 @@ module.exports = function(){
 
     this.init = function(){
         var self = this;
-        this.listen('help', function(from, interface, message){
+        this.listen('help', 'standard', function(from, interface, message){
             self.sendMessage('Yes Sir?', interface, from);
         })
     }

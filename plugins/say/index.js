@@ -6,11 +6,11 @@ module.exports = function(){
 
     this.init = function(){
         var self = this;
-        this.listen('say (.+?)', function(from, interface, params){
+        this.listen('say (.+?)', 'standard', function(from, interface, params){
             self.sendMessage(params[0], interface, from);
         })
 
-        this.listen('who steals cars\\?', function(from, interface){
+        this.listen('who steals cars\\?', 'standard', function(from, interface){
             self.sendMessage('GYPPOS!', interface, from);
         })
 
