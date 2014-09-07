@@ -19,7 +19,7 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         name: doc.value
     });
 
-    require('./lib/core_listeners.js')(api);
+    require('./lib/core_listeners.js')(api, users);
 
     require('./admin/')({
         promise: promise,
