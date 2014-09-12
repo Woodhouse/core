@@ -1,2 +1,3 @@
-{"name":"port","type":"text","value":"8080","_id":"VzZzAjISwfw0eIIt"}
-{"name":"name","type":"text","value":"Woodhouse","_id":"iZsfM8q2Bd21aNeH"}
+{"name":"default_permission","type":"text","value":"standard","_id":"6hCFrMFxlr8bGbz1","group":null}
+{"name":"port","type":"text","value":"8080","_id":"VzZzAjISwfw0eIIt","group":null}
+{"name":"name","type":"text","value":"Woodhouse","_id":"iZsfM8q2Bd21aNeH","group":null}
