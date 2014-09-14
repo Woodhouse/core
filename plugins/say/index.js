@@ -6,8 +6,8 @@ module.exports = function(){
 
     this.init = function(){
         var self = this;
-        this.listen('say (.+?)', 'standard', function(from, interface, params){
-            self.sendMessage(params[0], interface, from);
+        this.listen('(say|tell) (.+?)', 'standard', function(from, interface, params){
+            self.sendMessage(params[1], interface, from);
         })
 
         this.listen('who steals cars\\?', 'standard', function(from, interface){
