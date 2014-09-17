@@ -6,7 +6,7 @@
 
 # dependencies
 node_modules/
-/admin/vendor/*
+/admin/bower_components/*
 
 # misc
 /admin/.sass-cache

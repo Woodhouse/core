@@ -5,13 +5,13 @@ var EmberApp = require('ember-cli/lib/broccoli/ember-app');
 var app = new EmberApp();
 var mergeTrees = require('broccoli-merge-trees');
 var pickFiles = require('broccoli-static-compiler');
-var extraAssets = pickFiles('vendor/bootstrap/dist/fonts',{
+var extraAssets = pickFiles('bower_components/bootstrap/dist/fonts',{
     srcDir: '/',
     files: ['**/*'],
     destDir: '/fonts'
 });
-app.import('vendor/bootstrap/dist/js/bootstrap.js');
-app.import('vendor/bootstrap/dist/css/bootstrap.css');
+app.import('bower_components/bootstrap/dist/js/bootstrap.js');
+app.import('bower_components/bootstrap/dist/css/bootstrap.css');
 
 
 // Use `app.import` to add additional libraries to the generated
