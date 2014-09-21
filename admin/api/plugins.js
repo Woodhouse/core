@@ -36,7 +36,6 @@ module.exports = function(deps){
 
     this.formatDoc = function(doc){
         var prefs = [],
-            prefIds = [],
             newPrefsTemplateIds = [],
             newDoc = clone(doc);
 
@@ -57,11 +56,10 @@ module.exports = function(deps){
                 }
 
                 prefs.push(newDoc.prefs[a]);
-                prefIds.push(newDoc.prefs[a].id);
             }
 
         }
-        newDoc.prefs = prefIds;
+        delete newDoc.prefs;
 
         if (typeof newDoc.newPrefsTemplate !== 'undefined') {
             for (var a = 0, preflen = newDoc.newPrefsTemplate.length; a < preflen; a++) {
