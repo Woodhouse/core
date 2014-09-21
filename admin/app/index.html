@@ -14,13 +14,12 @@
   </head>
   <body>
     <script>
-      window.WoodhouseENV = {{ENV}};
-      window.EmberENV = window.WoodhouseENV.EmberENV;
+      window.EmberENV = {{EMBER_ENV}};
     </script>
     <script src="assets/vendor.js"></script>
     <script src="assets/woodhouse.js"></script>
     <script>
-      window.Woodhouse = require('woodhouse/app')['default'].create(WoodhouseENV.APP);
+      window.Woodhouse = require('woodhouse/app')['default'].create({{APP_CONFIG}});
     </script>
   </body>
 </html>
