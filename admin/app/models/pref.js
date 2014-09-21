@@ -4,7 +4,7 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   type: DS.attr('string'),
   value: DS.attr('string'),
-  interface: DS.belongsTo('interface', {inverse: 'prefs'}),
+  interface: DS.belongsTo('interface'),
   plugin: DS.belongsTo('plugin', {inverse: 'prefs'}),
   group: DS.attr('string'),
   isPassword: function(){
