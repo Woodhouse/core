@@ -21,7 +21,7 @@ shell.prototype.init = function() {
 
     this.cli.on('line', function(command){
         self.cli.prompt(true);
-        self.messageRecieved('admin', 'woodhouse ' + command)
+        self.messageRecieved('admin', self.api.name + ' ' + command)
     });
 
     this.cli.on('close', function() {
