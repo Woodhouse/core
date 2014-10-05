@@ -1,0 +1,128 @@
+diff --git a/admin/app/index.html b/admin/app/index.html
+index 5da48bc..d2983b2 100644
+--- a/admin/app/index.html
++++ b/admin/app/index.html
+@@ -7,19 +7,13 @@
+     <meta name="description" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+-    {{BASE_TAG}}
++    {{content-for 'head'}}
+ 
+     <link rel="stylesheet" href="assets/vendor.css">
+     <link rel="stylesheet" href="assets/woodhouse.css">
+   </head>
+   <body>
+-    <script>
+-      window.EmberENV = {{EMBER_ENV}};
+-    </script>
+     <script src="assets/vendor.js"></script>
+     <script src="assets/woodhouse.js"></script>
+-    <script>
+-      window.Woodhouse = require('woodhouse/app')['default'].create({{APP_CONFIG}});
+-    </script>
+   </body>
+ </html>
+diff --git a/admin/bower.json b/admin/bower.json
+index 5beb8e9..4ab1ccb 100644
+--- a/admin/bower.json
++++ b/admin/bower.json
+@@ -6,7 +6,7 @@
+     "ember": "1.7.0",
+     "ember-data": "1.0.0-beta.10",
+     "ember-resolver": "~0.1.7",
+-    "loader": "stefanpenner/loader.js#1.0.1",
++    "loader.js": "stefanpenner/loader.js#1.0.1",
+     "ember-cli-shims": "stefanpenner/ember-cli-shims#0.0.3",
+     "ember-cli-test-loader": "rwjblue/ember-cli-test-loader#0.0.4",
+     "ember-load-initializers": "stefanpenner/ember-load-initializers#0.0.2",
+diff --git a/admin/package.json b/admin/package.json
+index 0e106ef..2f6eb66 100644
+--- a/admin/package.json
++++ b/admin/package.json
+@@ -20,11 +20,12 @@
+   "license": "MIT",
+   "devDependencies": {
+     "body-parser": "^1.2.0",
+-    "broccoli-asset-rev": "0.1.1",
++    "broccoli-asset-rev": "0.3.0",
+     "broccoli-ember-hbs-template-compiler": "^1.6.1",
+-    "ember-cli": "0.0.46",
++    "ember-cli": "0.1.0",
++    "ember-cli-content-security-policy": "0.2.0",
+     "ember-cli-ic-ajax": "0.1.1",
+-    "ember-cli-inject-live-reload": "^1.0.2",
++    "ember-cli-inject-live-reload": "^1.2.2",
+     "ember-cli-qunit": "0.1.0",
+     "ember-data": "1.0.0-beta.10",
+     "express": "^4.8.5",
+diff --git a/admin/tests/.jshintrc b/admin/tests/.jshintrc
+index 95db7f3..6ebf71a 100644
+--- a/admin/tests/.jshintrc
++++ b/admin/tests/.jshintrc
+@@ -39,7 +39,6 @@
+     "findWithAssert",
+     "wait",
+     "DS",
+-    "keyEvent",
+     "isolatedContainer",
+     "startApp",
+     "andThen",
+diff --git a/admin/tests/helpers/start-app.js b/admin/tests/helpers/start-app.js
+index 1b3decc..7cd4320 100644
+--- a/admin/tests/helpers/start-app.js
++++ b/admin/tests/helpers/start-app.js
+@@ -1,7 +1,7 @@
+ import Ember from 'ember';
+ import Application from '../../app';
+ import Router from '../../router';
+-import config from '../../config/environments/test';
++import config from '../../config/environment';
+ 
+ export default function startApp(attrs) {
+   var App;
+diff --git a/admin/tests/index.html b/admin/tests/index.html
+index c566412..f3ff197 100644
+--- a/admin/tests/index.html
++++ b/admin/tests/index.html
+@@ -7,7 +7,7 @@
+     <meta name="description" content="">
+     <meta name="viewport" content="width=device-width, initial-scale=1">
+ 
+-    {{BASE_TAG}}
++    {{content-for 'head'}}
+ 
+     <link rel="stylesheet" href="assets/vendor.css">
+     <link rel="stylesheet" href="assets/woodhouse.css">
+@@ -33,16 +33,10 @@
+     <div id="qunit"></div>
+     <div id="qunit-fixture"></div>
+ 
+-    <script>
+-      window.EmberENV = {{EMBER_ENV}};
+-    </script>
+     <script src="assets/vendor.js"></script>
+     <script src="assets/test-support.js"></script>
+     <script src="assets/woodhouse.js"></script>
+     <script src="testem.js"></script>
+-    <script>
+-      require('woodhouse/tests/test-helper');
+-    </script>
+     <script src="assets/test-loader.js"></script>
+   </body>
+ </html>
+diff --git a/admin/tests/test-helper.js b/admin/tests/test-helper.js
+index f77e5a2..b5f6449 100644
+--- a/admin/tests/test-helper.js
++++ b/admin/tests/test-helper.js
+@@ -8,8 +8,5 @@ setResolver(resolver);
+ document.write('<div id="ember-testing-container"><div id="ember-testing"></div></div>');
+ 
+ QUnit.config.urlConfig.push({ id: 'nocontainer', label: 'Hide container'});
+-if (QUnit.urlParams.nocontainer) {
+-  document.getElementById('ember-testing-container').style.visibility = 'hidden';
+-} else {
+-  document.getElementById('ember-testing-container').style.visibility = 'visible';
+-}
++var containerVisibility = QUnit.urlParams.nocontainer ? 'hidden' : 'visible';
++document.getElementById('ember-testing-container').style.visibility = containerVisibility;
