@@ -8,7 +8,8 @@
     "express": "~4.6.1",
     "body-parser": "~1.4.3",
     "bluebird": "~2.2.2",
-    "clone": "~0.1.17"
+    "clone": "~0.1.17",
+    "cron": "~1.0.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

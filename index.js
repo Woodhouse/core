@@ -4,10 +4,12 @@ var interfacePrefs = new nedb({ filename: 'interface-prefs.db', autoload: true }
 var pluginPrefs = new nedb({ filename: 'plugin-prefs.db', autoload: true });
 var basePrefs = new nedb({ filename: 'base-prefs.db', autoload: true });
 var users = new nedb({ filename: 'users.db', autoload: true });
+var cron = new nedb({ filename: 'cron.db', autoload: true });
 promise.promisifyAll(interfacePrefs);
 promise.promisifyAll(pluginPrefs);
 promise.promisifyAll(basePrefs);
 promise.promisifyAll(users);
+promise.promisifyAll(cron);
 
 basePrefs.findOneAsync({name: 'name'}).done(function(doc){
     var api = require('./lib/api')({
@@ -16,6 +18,7 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         pluginPrefs: pluginPrefs,
         basePrefs: basePrefs,
         users: users,
+        cron: cron,
         name: doc.value
     });
 
@@ -27,6 +30,7 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         pluginPrefs: pluginPrefs,
         basePrefs: basePrefs,
         users: users,
+        cron: cron,
         api: api
     })
 
