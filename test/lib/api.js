@@ -1,0 +1,33 @@
+var should = require('should');
+var api = require("../../lib/api.js")
+var instance;
+
+describe('Api', function(){
+    beforeEach(function(){
+        instance = new api({
+            name: "Test name"
+        });
+    })
+    it('must expose a name', function(){
+        instance.name.should.equal("Test name");
+    });
+
+    it('must expose the listen function', function(){
+        instance.listen.should.be.a.Function;
+
+        instance.listen('testmodule', 'testlistener', 'testrole', 'testcommand');
+        instance.listeners.testmoduletestlistener.should.have.properties({
+            module: 'testmodule',
+            listener: 'testlistener',
+            role: 'testrole',
+            command: 'testcommand'
+        });
+    });
+
+    it('must expose the addMessageSender function', function(){
+        instance.addMessageSender.should.be.a.Function;
+
+        instance.addMessageSender('testsender', 'testcommand');
+        instance.messageSenders.testsender.should.equal('testcommand');
+    })
+})
