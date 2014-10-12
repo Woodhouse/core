@@ -29,5 +29,21 @@ describe('Api', function(){
 
         instance.addMessageSender('testsender', 'testcommand');
         instance.messageSenders.testsender.should.equal('testcommand');
+    });
+
+    it('checkrole must be true if the role is below yours', function(){
+        instance.checkRole.should.be.a.Function;
+
+        var returnVal = instance.checkRole('admin', 'ignore');
+
+        returnVal.should.be.true;
+    });
+
+    it('checkrole must be false if the role is above yours', function(){
+        instance.checkRole.should.be.a.Function;
+
+        var returnVal = instance.checkRole('ignore', 'admin');
+
+        returnVal.should.be.false;
     })
 })
