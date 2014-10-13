@@ -45,5 +45,19 @@ describe('Api', function(){
         var returnVal = instance.checkRole('ignore', 'admin');
 
         returnVal.should.be.false;
+    });
+
+    it('sendMessage must call the correct function', function(){
+        instance.sendMessage.should.be.a.Function;
+
+        var called = false;
+        instance.messageSenders['testinterface'] = function(message, to){
+            message.should.equal('testmessage');
+            to.should.equal('testto');
+            called = true;
+        }
+
+        instance.sendMessage('testmessage', 'testinterface', 'testto');
+        called.should.be.true;
     })
 })
