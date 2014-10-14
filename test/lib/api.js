@@ -59,5 +59,17 @@ describe('Api', function(){
 
         instance.sendMessage('testmessage', 'testinterface', 'testto');
         called.should.be.true;
+    });
+
+    it('must expose the addYesNoQuestion method', function(){
+        instance.addYesNoQuestion.should.be.a.Function;
+
+        instance.addYesNoQuestion('testuser', 'testquestion', 'testYesCallback', 'testNoCallback');
+        instance.yesNoQuestions.testuser.length.should.equal(1);
+        instance.yesNoQuestions.testuser[0].should.have.properties({
+            question: 'testquestion',
+            yesCallback: 'testYesCallback',
+            noCallback: 'testNoCallback'
+        })
     })
 })
