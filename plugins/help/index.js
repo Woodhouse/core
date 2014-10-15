@@ -1,14 +1,15 @@
-module.exports = function(){
+var help = function(){
 
     this.name = 'help';
     this.displayname = 'Help';
 
-    this.init = function(){
-        var self = this;
-        this.listen('help', 'standard', function(from, interface, message){
-            self.sendMessage('Yes Sir?', interface, from);
-        })
-    }
-
-    return this;
 }
+
+help.prototype.init = function(){
+    var self = this;
+    this.listen('help', 'standard', function(from, interface, message){
+        self.sendMessage('Yes Sir?', interface, from);
+    })
+}
+
+module.exports = help;
