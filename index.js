@@ -5,6 +5,7 @@ var pluginPrefs = new nedb({ filename: 'plugin-prefs.db', autoload: true });
 var basePrefs = new nedb({ filename: 'base-prefs.db', autoload: true });
 var users = new nedb({ filename: 'users.db', autoload: true });
 var cron = new nedb({ filename: 'cron.db', autoload: true });
+var api = require('./lib/api');
 promise.promisifyAll(interfacePrefs);
 promise.promisifyAll(pluginPrefs);
 promise.promisifyAll(basePrefs);
@@ -12,7 +13,7 @@ promise.promisifyAll(users);
 promise.promisifyAll(cron);
 
 basePrefs.findOneAsync({name: 'name'}).done(function(doc){
-    var api = require('./lib/api')({
+   var thisApi = new api({
         promise: promise,
         interfacePrefs: interfacePrefs,
         pluginPrefs: pluginPrefs,
@@ -22,7 +23,7 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         name: doc.value
     });
 
-    require('./lib/core_listeners.js')(api, users);
+    require('./lib/core_listeners.js')(thisApi, users);
 
     require('./admin/')({
         promise: promise,
@@ -31,8 +32,8 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         basePrefs: basePrefs,
         users: users,
         cron: cron,
-        api: api
+        api: thisApi
     })
 
-    api.getModules();
+    thisApi.getModules();
 });
