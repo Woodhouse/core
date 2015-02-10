@@ -7,33 +7,40 @@ var shell = function() {
 }
 
 shell.prototype.init = function() {
-    var readline = require('readline');
+    var rl = require('readline-history');
     var stdin = process.openStdin();
     var stdout = process.stdout;
     var self = this;
 
-    this.cli = readline.createInterface(stdin, stdout, null);
+    rl.createInterface({
+        input: stdin,
+        output: stdout,
+        path: __dirname + '/history',
+        maxLength: 1024000,
+        next: function(cli){
+            self.cli = cli;
+            self.cli.on('line', function(command){
+                self.cli.prompt(true);
+                self.messageRecieved('admin', self.api.name + ' ' + command)
+            });
+
+            self.cli.on('close', function() {
+                // stdin.destroy();
+                console.log('');
+                if (!self.moduleStopped) {
+                    process.exit(0);
+                }
+            });
+
+            self.cli.setPrompt("" + self.api.name + " > ");
+            self.cli.prompt();
+        }
+    });
 
     this.addMessageSender(function(message, to){
         console.log('\n' + message);
         self.cli.prompt(true);
     });
-
-    this.cli.on('line', function(command){
-        self.cli.prompt(true);
-        self.messageRecieved('admin', self.api.name + ' ' + command)
-    });
-
-    this.cli.on('close', function() {
-        // stdin.destroy();
-        console.log('');
-        if (!self.moduleStopped) {
-            process.exit(0);
-        }
-    });
-
-    this.cli.setPrompt("" + this.api.name + " > ");
-    this.cli.prompt();
 }
 
 shell.prototype.exit = function(){
