@@ -31,6 +31,7 @@ module.exports = function(options){
     });
 
     router.get('/*', function(req, res){
+        console.log(req.params);
         var path = req.params[0] && fs.existsSync('./admin/dist/'+req.params[0])? req.params[0] : 'index.html';
         res.sendFile(path, {root: './admin/dist'});
     });
