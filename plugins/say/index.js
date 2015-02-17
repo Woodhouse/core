@@ -7,7 +7,7 @@ var say = function(){
 
 say.prototype.init = function(){
     var self = this;
-    this.listen('(say|tell) (.+?)', 'standard', function(from, interface, params){
+    this.listen('(say|tell) (:<message>.+?)', 'standard', function(from, interface, params){
         self.sendMessage(params[1], interface, from);
     })
 
