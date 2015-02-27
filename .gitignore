@@ -15,3 +15,10 @@ node_modules/
 /admin/libpeerconnection.log
 npm-debug.log
 testem.log
+
+interfaces/
+interfaces/!shell
+interfaces/shell/history
+
+plugins/
+plugins/!say
