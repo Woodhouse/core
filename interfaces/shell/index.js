@@ -21,6 +21,9 @@ shell.prototype.init = function() {
             self.cli = cli;
             self.cli.on('line', function(command){
                 self.cli.prompt(true);
+                if (command === 'exit') {
+                    return process.exit(0);
+                }
                 self.messageRecieved('admin', self.api.name + ' ' + command)
             });
 
