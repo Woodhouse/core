@@ -4,7 +4,6 @@ var interfacePrefs = new nedb({ filename: 'interface-prefs.db', autoload: true }
 var pluginPrefs = new nedb({ filename: 'plugin-prefs.db', autoload: true });
 var basePrefs = new nedb({ filename: 'base-prefs.db', autoload: true });
 var users = new nedb({ filename: 'users.db', autoload: true });
-var cron = new nedb({ filename: 'cron.db', autoload: true });
 var api = require('./lib/api');
 promise.promisifyAll(interfacePrefs);
 promise.promisifyAll(pluginPrefs);
