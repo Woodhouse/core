@@ -9,7 +9,6 @@ promise.promisifyAll(interfacePrefs);
 promise.promisifyAll(pluginPrefs);
 promise.promisifyAll(basePrefs);
 promise.promisifyAll(users);
-promise.promisifyAll(cron);
 
 basePrefs.findOneAsync({name: 'name'}).done(function(doc){
    var thisApi = new api({
@@ -18,7 +17,6 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         pluginPrefs: pluginPrefs,
         basePrefs: basePrefs,
         users: users,
-        cron: cron,
         name: doc.value
     });
 
@@ -30,7 +28,6 @@ basePrefs.findOneAsync({name: 'name'}).done(function(doc){
         pluginPrefs: pluginPrefs,
         basePrefs: basePrefs,
         users: users,
-        cron: cron,
         api: thisApi
     })
 
