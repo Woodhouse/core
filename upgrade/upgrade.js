@@ -16,7 +16,7 @@ upgrade.prototype = function() {
             })
 
             for (var i = 0; i < minors.length; i++) {
-                if (parseInt(minors[i], 10) < parseInt(versionParts[0], 10)) {
+                if (parseInt(minors[i], 10) < parseInt(versionParts[1], 10)) {
                     delete manifest[keys[0]][minors[i]];
                     minors.splice(i--, 1);
                 } else {
@@ -43,7 +43,7 @@ upgrade.prototype = function() {
             })
 
             for (var i = 0; i < patches.length; i++) {
-                if (parseInt(patches[i], 10) < parseInt(versionParts[0], 10)) {
+                if (parseInt(patches[i], 10) <= parseInt(versionParts[2], 10)) {
                     delete manifest[keys[0]][patches[i]];
                     patches.splice(i--, 1);
                 } else {
@@ -74,17 +74,16 @@ upgrade.prototype = function() {
             });
         },
         runChangesets = function(changesets) {
+            if (!changesets || changesets.length === 0) {
+                return this.deps.promise.resolve();
+            }
             var self = this,
                 changeSetFile = require(__dirname + '/changesets/' + changesets[0]),
                 changeSet = new changeSetFile(this.deps);
 
             return changeSet.up().then(function() {
                 changesets.shift();
-                if (changesets.length > 0) {
-                    return runChangesets.call(self, changesets);
-                } else {
-                    return self.deps.promise.resolve();
-                }
+                return runChangesets.call(self, changesets);
             });
         };
 
