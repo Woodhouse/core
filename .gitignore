@@ -22,3 +22,9 @@ interfaces/shell/history
 
 plugins/
 plugins/!say
+
+base-prefs.db
+interface-prefs.db
+plugin-prefs.db
+system-data.db
+users.db

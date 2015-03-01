@@ -1,0 +1,12 @@
+{
+    "0": {
+        "0": {
+            "1": [
+                "addBasePrefs.js",
+                "addDefaultInterfacePrefs.js",
+                "addDefaultPluginPrefs.js",
+                "addDefaultUsers.js"
+            ]
+        }
+    }
+}
