@@ -7,6 +7,11 @@
                 "addDefaultPluginPrefs.js",
                 "addDefaultUsers.js"
             ]
+        },
+        "1": {
+            "1": [
+                "addDefaultPermissionToInterfaces.js"
+            ]
         }
     }
 }

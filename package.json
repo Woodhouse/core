@@ -4,12 +4,12 @@
   "description": "Your robot butler",
   "main": "index.js",
   "dependencies": {
-    "nedb": "~0.10.5",
-    "express": "~4.6.1",
+    "bluebird": "^2.9.13",
     "body-parser": "~1.4.3",
-    "bluebird": "~2.2.2",
     "clone": "~0.1.17",
     "cron": "~1.0.5",
+    "express": "~4.6.1",
+    "nedb": "~0.10.5",
     "readline-history": "^1.2.0"
   },
   "scripts": {

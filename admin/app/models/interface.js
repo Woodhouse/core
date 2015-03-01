@@ -4,6 +4,7 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   displayname: DS.attr('string'),
   description: DS.attr('string'),
+  default_permission: DS.attr('string'),
   enabled: DS.attr('boolean'),
   prefs: DS.hasMany('pref', {inverse: 'interface'}),
   uiMessage: DS.hasMany('uiMessage', {inverse: 'interface'}),

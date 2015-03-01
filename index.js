@@ -8,6 +8,7 @@ var pluginPrefs = new nedb({ filename: 'plugin-prefs.db', autoload: true });
 var basePrefs = new nedb({ filename: 'base-prefs.db', autoload: true });
 var users = new nedb({ filename: 'users.db', autoload: true });
 var api = require('./lib/api');
+var clone = require('clone');
 promise.promisifyAll(interfacePrefs);
 promise.promisifyAll(pluginPrefs);
 promise.promisifyAll(basePrefs);
@@ -42,6 +43,7 @@ systemData.findOneAsync({name: 'version'}).then(function(doc) {
 
     thisApi = new api(apiObject);
     require('./lib/core_listeners.js')(thisApi, users);
+    apiObject.api = thisApi;
     require('./admin/')(apiObject)
 
     thisApi.getModules();
