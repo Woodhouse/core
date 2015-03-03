@@ -8,6 +8,9 @@ var upgrade = function(deps) {
 upgrade.prototype = function() {
     var versionParts,
         runMajors = function(manifest, keys) {
+            if (keys || keys.length === 0) {
+                return this.deps.promise.resolve();
+            }
             var self = this,
                 minors = Object.keys(manifest[keys[0]]);
 
@@ -35,6 +38,9 @@ upgrade.prototype = function() {
             });
         },
         runMinors = function(manifest, keys) {
+            if (keys || keys.length === 0) {
+                return this.deps.promise.resolve();
+            }
             var self = this,
                 patches = Object.keys(manifest[keys[0]]);
 
@@ -62,6 +68,9 @@ upgrade.prototype = function() {
             });
         },
         runPatches = function(manifest, keys) {
+            if (keys || keys.length === 0) {
+                return this.deps.promise.resolve();
+            }
             var self = this;
             return runChangesets.call(this, manifest[keys[0]]).then(function() {
                 delete manifest[keys[0]];
