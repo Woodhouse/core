@@ -1,20 +1,19 @@
 module.exports = function(options){
-    var express = require('express');
-    var app = express();
-    var bodyParser = require('body-parser');
-    var fs = require('fs');
-    var interfacePrefs = options.interfacePrefs,
+    var express = require('express'),
+        app = express(),
+        bodyParser = require('body-parser'),
+        fs = require('fs'),
+        interfacePrefs = options.interfacePrefs,
         pluginPrefs = options.pluginPrefs,
         basePrefs = options.basePrefs,
         promise = options.promise,
         api = options.api,
-        deps = options;
+        deps = options,
+        router = express.Router();
 
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
-
-    var router = express.Router();
 
     router.param('endpoint', function(req, res, next, endpoint){
         var endpoint = require('./api/'+endpoint);

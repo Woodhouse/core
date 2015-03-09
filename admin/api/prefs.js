@@ -4,6 +4,7 @@ module.exports = function(deps){
 
     this.get = function(params){
         var self = this;
+
         if (params.length > 0) {
             return this.getOne(params);
         }
@@ -25,8 +26,10 @@ module.exports = function(deps){
 
     this.getOne = function(params){
         var self = this;
+
         return deps.basePrefs.findOneAsync({name: params[0]}).then(function(doc){
             var newDoc = self.formatDoc(doc)
+
             return {prefs: newDoc};
         });
     };
@@ -50,6 +53,7 @@ module.exports = function(deps){
 
     this.putOne = function(params, body){
         var self = this;
+
         return deps.basePrefs.updateAsync({_id: params[0]}, {$set: body.pref}).then(function(){
             return deps.basePrefs.findOneAsync({_id: params[0]}).then(function(doc){
                 return {prefs: self.formatDoc(doc)};
