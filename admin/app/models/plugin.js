@@ -6,7 +6,6 @@ export default DS.Model.extend({
   description: DS.attr('string'),
   enabled: DS.attr('boolean'),
   prefs: DS.hasMany('pref', {inverse: 'plugin'}),
-  uiMessage: DS.hasMany('uiMessage', {inverse: 'plugin'}),
   canAddNewPrefs: DS.attr('boolean'),
   newPrefsTemplate: DS.hasMany('pref'),
   getGroupedPrefs: function(){

@@ -3,9 +3,7 @@
   <li class="active">{{name}}</li>
 </ol>
 <h1>{{name}}</h1>
-{{#each uiMessage}}
-    <div {{bind-attr class=":alert typeClass"}} role="alert">{{text}}</div>
-{{/each}}
+{{x-wuphf}}
 <form class="form-horizontal" role="form">
     {{#each getGroupedPrefs}}
         {{#each}}

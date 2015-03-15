@@ -6,18 +6,11 @@ export default Ember.ObjectController.extend({
     },
     actions: {
         save: function(){
-            var message,
-                self = this;
-            this.get('model').save();
-            message = this.store.createRecord('uiMessage', {
-                text: 'Successfully saved',
-                type:'success',
-                interface: this.get('model')
+            this.get('model').save().then(function() {
+                self.wuphf.success('Successfully saved', 5000);
+            }).catch(function() {
+                self.wuphf.danger('There was an error saving', 5000);
             });
-            this.get('model.uiMessage').pushObject(message);
-            setTimeout(function(){
-                self.store.deleteRecord(message);
-            }, 5000);
         },
         addNewPrefs: function(){
             var self = this;
