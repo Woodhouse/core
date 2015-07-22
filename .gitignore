@@ -28,3 +28,4 @@ interface-prefs.db
 plugin-prefs.db
 system-data.db
 users.db
+cron.db
