@@ -23,6 +23,10 @@
             {{input type="checkbox" id="enabled" checked=enabled}}
         </div>
     </div>
+    <h2>Listener Aliases</h2>
+    {{#each listeneraliases}}
+        {{partial "listeneralias"}}
+    {{/each}}
     <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
             <button type="button" class="btn btn-primary pull-right" {{action "save"}}>Save</button>

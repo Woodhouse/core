@@ -8,6 +8,7 @@ export default DS.Model.extend({
   prefs: DS.hasMany('pref', {inverse: 'plugin'}),
   canAddNewPrefs: DS.attr('boolean'),
   newPrefsTemplate: DS.hasMany('pref'),
+  listeneraliases: DS.hasMany('listeneralias', {inverse: 'plugin'}),
   getGroupedPrefs: function(){
     var prefsObj = {};
     this.get('prefs').forEach(function(item){

@@ -12,6 +12,7 @@ module.exports = function(deps){
         return deps.pluginPrefs.findAsync({}).then(function(docs){
             var prefs = [],
                 returnDocs = [],
+                listenerAliases = [],
                 formattedDoc;
 
             for (var i = 0, len = docs.length; i < len; i++) {
@@ -19,13 +20,19 @@ module.exports = function(deps){
                 returnDocs.push(formattedDoc.plugins);
 
                 if (formattedDoc.prefs.length > 0) {
-                    for (var a = 0, prefslen = formattedDoc.prefs.length; a < prefslen; a++) {
-                        prefs.push(formattedDoc.prefs[a]);
-                    }
+                    Array.prototype.push.apply(prefs, formattedDoc.prefs)
+                }
+
+                if (formattedDoc.prefs.length > 0) {
+                    Array.prototype.push.apply(prefs, formattedDoc.prefs)
+                }
+
+                if (formattedDoc.listeneraliases.length > 0) {
+                    Array.prototype.push.apply(listenerAliases, formattedDoc.listeneraliases)
                 }
             }
 
-            return {plugins: returnDocs, prefs: prefs};
+            return {plugins: returnDocs, prefs: prefs, listeneraliases: listenerAliases};
         })
     };
 
@@ -41,10 +48,42 @@ module.exports = function(deps){
         var prefs = [],
             prefIds = [],
             newPrefsTemplateIds = [],
-            newDoc = clone(doc);
+            newDoc = clone(doc),
+            listeners = {},
+            listenerAliases = [],
+            listenerAliasIds = [];
 
         newDoc.id = newDoc.name;
         delete newDoc._id;
+
+        for (var key in deps.api.listeners) {
+            if (deps.api.listeners[key].module.name === doc.name && !deps.api.listeners[key].isAlias) {
+                listeners[deps.api.listeners[key].listener] = {
+                    id: deps.api.listeners[key].module.name + deps.api.listeners[key].listener,
+                    listener: deps.api.listeners[key].listener.replace(
+                        /(\((:<(.+?)>)*([\(].+?[\)])*(.+?)\))/g,
+                        function (group, groupinner, namegroup, name) {
+                            if (typeof name !== 'undefined') {
+                                return '<<' + name + '>>'
+                            }
+
+                            return group;
+                        }
+                    ),
+                    alias: ''
+                };
+                listenerAliasIds.push(deps.api.listeners[key].module.name + deps.api.listeners[key].listener)
+            }
+        }
+
+        if (doc.listeneraliases && doc.listeneraliases.length > 0) {
+            doc.listeneraliases.forEach(function() {
+                listeners[deps.api.listener[key].listener].alias = doc.listeneraliases.alias
+            });
+        }
+
+        listenerAliases = Object.keys(listeners).map(function (key) {return listeners[key]});
+        newDoc.listeneraliases = listenerAliasIds;
 
         if (typeof newDoc.prefs !== 'undefined') {
 
@@ -79,7 +118,7 @@ module.exports = function(deps){
         }
 
         newDoc.newPrefsTemplate = newPrefsTemplateIds
-        return {plugins: newDoc, prefs: prefs};
+        return {plugins: newDoc, prefs: prefs, listeneraliases: listenerAliases};
     }
 
     this.put = function(params, body){
