@@ -2,28 +2,19 @@ var promise = require('bluebird'),
     nedb = require('nedb'),
     Upgrade = require('./upgrade/upgrade.js'),
     version = require('./lib/version.js'),
-    systemData = new nedb({ filename: 'system-data.db', autoload: true }),
-    interfacePrefs = new nedb({ filename: 'interface-prefs.db', autoload: true }),
-    pluginPrefs = new nedb({ filename: 'plugin-prefs.db', autoload: true }),
-    basePrefs = new nedb({ filename: 'base-prefs.db', autoload: true }),
-    users = new nedb({ filename: 'users.db', autoload: true }),
+    systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true })),
+    interfacePrefs = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true })),
+    pluginPrefs = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true })),
+    basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true })),
+    users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true })),
     api = require('./lib/api'),
     clone = require('clone'),
-    apiObject;
-
-promise.promisifyAll(interfacePrefs);
-promise.promisifyAll(pluginPrefs);
-promise.promisifyAll(basePrefs);
-promise.promisifyAll(users);
-promise.promisifyAll(systemData);
-
-apiObject = {
-    promise: promise,
-    interfacePrefs: interfacePrefs,
-    pluginPrefs: pluginPrefs,
-    basePrefs: basePrefs,
-    users: users
-};
+    apiObject = {
+        interfacePrefs: interfacePrefs,
+        pluginPrefs: pluginPrefs,
+        basePrefs: basePrefs,
+        users: users
+    };
 
 systemData.findOneAsync({name: 'version'}).then(function(doc) {
     if (!doc) {

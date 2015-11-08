@@ -1,6 +1,7 @@
-var fs = require('fs');
-var manifest = fs.readFileSync(__dirname + '/manifest.json');
-var runMajors,
+var fs = require('fs'),
+    promise = require('bluebird'),
+    manifest = fs.readFileSync(__dirname + '/manifest.json'),
+    runMajors,
     runMinors,
     runPatches,
     runChangesets,
@@ -12,7 +13,7 @@ var upgrade = function(deps) {
 
     runMajors = function(manifest, keys) {
         if (!keys || keys.length === 0) {
-            return self.deps.promise.resolve();
+            return promise.resolve();
         }
         var minors = Object.keys(manifest[keys[0]]);
 
@@ -35,14 +36,14 @@ var upgrade = function(deps) {
             if (keys.length > 0) {
                 return runMajors(manifest, keys);
             } else {
-                return self.deps.promise.resolve();
+                return promise.resolve();
             }
         });
     }
 
     runMinors = function(manifest, keys) {
         if (!keys || keys.length === 0) {
-            return self.deps.promise.resolve();
+            return promise.resolve();
         }
         var patches = Object.keys(manifest[keys[0]]);
 
@@ -65,14 +66,14 @@ var upgrade = function(deps) {
             if (keys.length > 0) {
                 return runMinors(manifest, keys);
             } else {
-                return self.deps.promise.resolve();
+                return promise.resolve();
             }
         });
     }
 
     runPatches = function(manifest, keys) {
         if (!keys || keys.length === 0) {
-            return self.deps.promise.resolve();
+            return promise.resolve();
         }
 
         return runChangesets(manifest[keys[0]]).then(function() {
@@ -81,14 +82,14 @@ var upgrade = function(deps) {
             if (keys.length > 0) {
                 return runPatches(manifest, keys);
             } else {
-                return self.deps.promise.resolve();
+                return promise.resolve();
             }
         });
     }
 
     runChangesets = function(changesets) {
         if (!changesets || changesets.length === 0) {
-            return self.deps.promise.resolve();
+            return promise.resolve();
         }
         var changeSetFile = require(__dirname + '/changesets/' + changesets[0]),
             changeSet = new changeSetFile(self.deps);

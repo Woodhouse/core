@@ -6,18 +6,22 @@ module.exports = function(options){
         interfacePrefs = options.interfacePrefs,
         pluginPrefs = options.pluginPrefs,
         basePrefs = options.basePrefs,
-        promise = options.promise,
+        promise = require('bluebird'),
         api = options.api,
         deps = options,
-        router = express.Router();
+        router = express.Router(),
+        endpoints = {
+            interfaces: new (require('./api/interfaces.js'))(deps),
+            plugins: new (require('./api/plugins.js'))(deps),
+            prefs: new (require('./api/prefs.js'))(deps)
+        };
 
     app.use(bodyParser.urlencoded({extended: true}));
     app.use(bodyParser.json());
     app.use(bodyParser.json({ type: 'application/vnd.api+json' }));
 
     router.param('endpoint', function(req, res, next, endpoint){
-        var endpoint = require('./api/'+endpoint);
-        req.endpoint = new endpoint(deps)
+        req.endpoint = endpoints[endpoint];
         return next();
     });
 
