@@ -1,19 +1,19 @@
+var express = require('express'),
+    bodyParser = require('body-parser'),
+    fs = require('fs'),
+    promise = require('bluebird'),
+    interfacesApi = require('./api/interfaces.js'),
+    pluginsApi = require('./api/plugins.js'),
+    prefsApi = require('./api/prefs.js');
+
 module.exports = {
     init: function(api, options){
-        var express = require('express'),
-            app = express(),
-            bodyParser = require('body-parser'),
-            fs = require('fs'),
-            interfacePrefs = options.interfacePrefs,
-            pluginPrefs = options.pluginPrefs,
-            basePrefs = options.basePrefs,
-            promise = require('bluebird'),
-            deps = options,
+        var app = express(),
             router = express.Router(),
             endpoints = {
-                interfaces: new (require('./api/interfaces.js'))(deps),
-                plugins: new (require('./api/plugins.js'))(deps),
-                prefs: new (require('./api/prefs.js'))(deps)
+                interfaces: new interfacesApi(options),
+                plugins: new pluginsApi(options),
+                prefs: new prefsApi(options)
             };
 
         app.use(bodyParser.urlencoded({extended: true}));
@@ -40,7 +40,7 @@ module.exports = {
 
         app.use('/', router);
 
-        basePrefs.findOneAsync({name: 'port'}).done(function(doc){
+        options.basePrefs.findOneAsync({name: 'port'}).done(function(doc){
             app.listen(doc.value);
         });
     }
