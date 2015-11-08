@@ -78,7 +78,7 @@ module.exports = function(deps){
 
         if (doc.listeneraliases && doc.listeneraliases.length > 0) {
             doc.listeneraliases.forEach(function() {
-                listeners[deps.api.listener[key].listener].alias = doc.listeneraliases.alias
+                listeners[deps.api.listeners[key].listener].alias = doc.listeneraliases.alias
             });
         }
 
