@@ -72,14 +72,14 @@ module.exports = function(deps){
                     ),
                     alias: ''
                 };
-                listenerAliasIds.push(deps.api.listeners[key].module.name + deps.api.listeners[key].listener)
-            }
-        }
+                listenerAliasIds.push(deps.api.listeners[key].module.name + deps.api.listeners[key].listener);
 
-        if (doc.listeneraliases && doc.listeneraliases.length > 0) {
-            doc.listeneraliases.forEach(function() {
-                listeners[deps.api.listeners[key].listener].alias = doc.listeneraliases.alias
-            });
+                if (doc.listeneraliases && doc.listeneraliases.length > 0) {
+                    doc.listeneraliases.forEach(function() {
+                        listeners[deps.api.listeners[key].listener].alias = doc.listeneraliases.alias
+                    });
+                }
+            }
         }
 
         listenerAliases = Object.keys(listeners).map(function (key) {return listeners[key]});
