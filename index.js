@@ -2,14 +2,15 @@ var promise = require('bluebird'),
     nedb = require('nedb'),
     Upgrade = require('./upgrade/upgrade.js'),
     version = require('./lib/version.js'),
+    api = require('./lib/api'),
+    core_listeners = require('./lib/core_listeners.js'),
+    admin = require('./admin/index.js'),
     systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true })),
     interfacePrefs = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true })),
     pluginPrefs = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true })),
     basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true })),
     users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true })),
-    api = require('./lib/api'),
-    clone = require('clone'),
-    apiObject = {
+    options = {
         interfacePrefs: interfacePrefs,
         pluginPrefs: pluginPrefs,
         basePrefs: basePrefs,
@@ -23,7 +24,7 @@ systemData.findOneAsync({name: 'version'}).then(function(doc) {
         return doc;
     }
 }).then(function(doc) {
-    var upgrade = new Upgrade(apiObject);
+    var upgrade = new Upgrade(options);
     return upgrade.run(doc.value);
 }).then(function() {
     return systemData.updateAsync({name: 'version'}, {$set: {value: version.full}});
@@ -32,12 +33,12 @@ systemData.findOneAsync({name: 'version'}).then(function(doc) {
 }).then(function(doc){
     var thisApi;
 
-    apiObject.name = doc.value;
+    options.name = doc.value;
 
-    thisApi = new api(apiObject);
-    require('./lib/core_listeners.js')(thisApi, users);
-    apiObject.api = thisApi;
-    require('./admin/')(apiObject)
+    thisApi = new api(options);
+    core_listeners.init(thisApi, users);
+    options.api = thisApi;
+    admin.init(thisApi, options)
 
     thisApi.getModules();
 })
