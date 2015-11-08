@@ -132,9 +132,9 @@ module.exports = function(deps){
 
         return deps.pluginPrefs.updateAsync({name: params[0]}, {$set: body.plugin}).then(function(){
             return deps.pluginPrefs.findOneAsync({name: params[0]}).then(function(doc){
-                deps.api.reloadModule(doc.name, 'plugins');
-
-                return self.formatDoc(doc);
+                return deps.api.reloadModule(doc.name, 'plugins').then(function() {
+                    return self.formatDoc(doc);
+                });
             });
         });
     };
