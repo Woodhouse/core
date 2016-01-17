@@ -41,4 +41,4 @@ systemData.findOneAsync({name: 'version'}).then(function(doc) {
     admin.init(thisApi, options)
 
     thisApi.getModules();
-})
+});
