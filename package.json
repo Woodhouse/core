@@ -14,7 +14,7 @@
     "readline-history": "^1.2.0"
   },
   "scripts": {
-    "test": "./node_modules/.bin/mocha --recursive",
+    "test": "mocha --recursive",
     "install": "cd admin && npm install"
   },
   "repository": {
