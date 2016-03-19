@@ -11,8 +11,7 @@
     "readline-history": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha --recursive",
-    "install": "cd admin && npm install"
+    "test": "mocha --recursive"
   },
   "repository": {
     "type": "git",
