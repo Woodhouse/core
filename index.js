@@ -1,44 +1,29 @@
-var promise = require('bluebird'),
-    nedb = require('nedb'),
-    Upgrade = require('./upgrade/upgrade.js'),
-    version = require('./lib/version.js'),
-    api = require('./lib/api'),
-    core_listeners = require('./lib/core_listeners.js'),
-    admin = require('./admin/index.js'),
-    systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true })),
-    interfacePrefs = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true })),
-    pluginPrefs = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true })),
-    basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true })),
-    users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true })),
-    options = {
-        interfacePrefs: interfacePrefs,
-        pluginPrefs: pluginPrefs,
-        basePrefs: basePrefs,
-        users: users
-    };
+'use strict';
 
-systemData.findOneAsync({name: 'version'}).then(function(doc) {
-    if (!doc) {
-        return systemData.insertAsync({name: 'version', value: '0.0.0'});
-    } else {
-        return doc;
-    }
-}).then(function(doc) {
-    var upgrade = new Upgrade(options);
-    return upgrade.run(doc.value);
-}).then(function() {
-    return systemData.updateAsync({name: 'version'}, {$set: {value: version.full}});
-}).then(function() {
-    return basePrefs.findOneAsync({name: 'name'});
-}).then(function(doc){
-    var thisApi;
+// Npm modules
+const promise = require('bluebird');
+const nedb = require('nedb');
 
-    options.name = doc.value;
+// Data
+const systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true }));
+const interfacePrefs = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true }));
+const pluginPrefs = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true }));
+const basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true }));
+const users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true }));
 
-    thisApi = new api(options);
-    core_listeners.init(thisApi, users);
-    options.api = thisApi;
-    admin.init(thisApi, options)
+// Woodhouse modules
+const moduleLoaderClass = require('./lib/moduleLoader.js');
+const modulePrefsClass = require('./lib/modulePrefs.js');
+const dispatcherClass = require('./lib/dispatcher.js');
+const rolesClass = require('./lib/roles.js');
+const usersClass = require('./lib/users.js');
+const cronClass = require('./lib/cron.js');
+const yesNoClass = require('./lib/yesNo.js');
+const coreListeners = require('./lib/coreListeners.js');
 
-    thisApi.getModules();
+basePrefs.findOneAsync({name: 'name'}).then(function(instanceName){
+    const dispatcher = new dispatcherClass();
+    const modulePrefs = new modulePrefsClass(interfacePrefs, pluginPrefs);
+    const moduleLoader = new moduleLoaderClass(dispatcher, modulePrefs);
+    moduleLoader.getModules();
 });
