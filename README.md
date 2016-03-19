@@ -1,3 +1,5 @@
+# The V2 branch is not stable and is still under development!
+
 # Woodhouse
 
 This readme should help you get the basics of Woodhouse up and running
