@@ -16,12 +16,12 @@ node_modules/
 npm-debug.log
 testem.log
 
-/interfaces/
-/interfaces/!shell
-/interfaces/shell/history
+/interface/
+!/interface/shell
+/interface/shell/history
 
-/plugins/
-/plugins/!say
+/plugin/
+!/plugin/say
 
 base-prefs.db
 interface-prefs.db
