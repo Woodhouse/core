@@ -1,14 +1,11 @@
 {
   "name": "woodhouse",
-  "version": "0.0.1",
+  "version": "2.0.0",
   "description": "Your robot butler",
   "main": "index.js",
   "dependencies": {
-    "bluebird": "^2.9.13",
-    "body-parser": "~1.4.3",
-    "clone": "~0.1.17",
+    "bluebird": "^3.3.4",
     "cron": "~1.0.5",
-    "express": "~4.6.1",
     "ip": "^0.3.3",
     "nedb": "~0.10.5",
     "readline-history": "^1.2.0"
@@ -19,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lukeb-uk/woodhouse.git"
+    "url": "https://github.com/woodhouse-bot/core.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lukeb-uk/woodhouse/issues"
+    "url": "https://github.com/woodhouse-bot/core/issues"
   },
-  "homepage": "https://github.com/lukeb-uk/woodhouse",
+  "homepage": "https://github.com/woodhouse-bot/core",
   "devDependencies": {
     "chai": "^3.4.1",
     "mocha": "^2.3.4",
