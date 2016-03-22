@@ -24,6 +24,7 @@ const coreListeners = require('./lib/coreListeners.js');
 basePrefs.findOneAsync({name: 'name'}).then(function(instanceName){
     const dispatcher = new dispatcherClass();
     const modulePrefs = new modulePrefsClass(interfacePrefs, pluginPrefs);
-    const moduleLoader = new moduleLoaderClass(dispatcher, modulePrefs);
+    const cron = new cronClass();
+    const moduleLoader = new moduleLoaderClass(dispatcher, modulePrefs, cron);
     moduleLoader.getModules();
 });
