@@ -29,3 +29,5 @@ plugin-prefs.db
 system-data.db
 users.db
 cron.db
+
+/coverage/

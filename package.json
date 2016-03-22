@@ -11,7 +11,8 @@
     "readline-history": "^1.2.0"
   },
   "scripts": {
-    "test": "mocha --recursive"
+    "test": "mocha --recursive",
+    "coverage": "istanbul cover node_modules/mocha/bin/_mocha -- --recursive"
   },
   "repository": {
     "type": "git",
@@ -26,6 +27,7 @@
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
+    "istanbul": "^0.4.2",
     "mocha": "^2.3.4",
     "mockery": "^1.4.1",
     "sinon": "^1.17.2"
