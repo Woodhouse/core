@@ -30,21 +30,23 @@ describe('Module Loader', function() {
         }
     };
 
-    const mockModulePrefs = {
-        get: () => {
-            return 'get';
+    const mockModuleData = {
+        getPref: () => {
+            return 'getPref';
         },
-        isEnabled: (type, name) => {
-            if (name === 'testModule1') {
-                return bluebird.resolve(true);
-            } else if (name === 'testModule2') {
-                return bluebird.resolve(false)
-            } else if (name === 'testModule3') {
-                let error = new Error('No preferences found for ' + name);
-                error.shortCode = 'no-prefs';
-                return bluebird.reject(error);
-            } else {
-                return bluebird.reject(new Error('error!'));
+        get: (type, name, key) => {
+            if (key === 'enabled') {
+                if (name === 'testModule1') {
+                    return bluebird.resolve(true);
+                } else if (name === 'testModule2') {
+                    return bluebird.resolve(false)
+                } else if (name === 'testModule3') {
+                    let error = new Error('No data found for ' + name);
+                    error.shortCode = 'no-prefs';
+                    return bluebird.reject(error);
+                } else {
+                    return bluebird.reject(new Error('error!'));
+                }
             }
         },
         addModule: () => {
@@ -117,7 +119,7 @@ describe('Module Loader', function() {
         });
 
         const moduleLoaderClass = require("../../lib/moduleLoader.js");
-        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModulePrefs, mockCron);
+        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockCron);
     });
 
     it('getmodulelist should only return folders', function() {
@@ -148,7 +150,7 @@ describe('Module Loader', function() {
         expect(module).to.have.property('removeCronJob');
         expect(module.removeCronJob()).to.equal('remove');
         expect(module).to.have.property('getPref');
-        expect(module.getPref()).to.equal('get');
+        expect(module.getPref()).to.equal('getPref');
     });
 
     it('loadModule should load the module if it is enabled', function() {
