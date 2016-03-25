@@ -48,6 +48,8 @@ describe('Module Loader', function() {
                     return bluebird.reject(new Error('error!'));
                 }
             }
+
+            return 'getData';
         },
         addModule: () => {
             return bluebird.resolve();
@@ -151,6 +153,8 @@ describe('Module Loader', function() {
         expect(module.removeCronJob()).to.equal('remove');
         expect(module).to.have.property('getPref');
         expect(module.getPref()).to.equal('getPref');
+        expect(module).to.have.property('getData');
+        expect(module.getData()).to.equal('getData');
     });
 
     it('loadModule should load the module if it is enabled', function() {
