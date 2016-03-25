@@ -56,6 +56,12 @@ describe('Module Loader', function() {
         }
     };
 
+    const mockSystemPrefs = {
+        get: () => {
+            return 'getSystemPref';
+        }
+    }
+
     const mockCron = {
         add: () => {
             return 'add';
@@ -121,7 +127,7 @@ describe('Module Loader', function() {
         });
 
         const moduleLoaderClass = require("../../lib/moduleLoader.js");
-        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockCron);
+        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockSystemPrefs, mockCron);
     });
 
     it('getmodulelist should only return folders', function() {
@@ -155,6 +161,8 @@ describe('Module Loader', function() {
         expect(module.getPref()).to.equal('getPref');
         expect(module).to.have.property('getData');
         expect(module.getData()).to.equal('getData');
+        expect(module).to.have.property('getSystemPref');
+        expect(module.getSystemPref()).to.equal('getSystemPref');
     });
 
     it('loadModule should load the module if it is enabled', function() {

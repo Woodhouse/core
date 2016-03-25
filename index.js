@@ -12,7 +12,7 @@ const basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', aut
 const users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true }));
 
 // Woodhouse modules
-const modulePrefsClass = require('./lib/systemPrefs.js');
+const systemPrefsClass = require('./lib/systemPrefs.js');
 const moduleLoaderClass = require('./lib/moduleLoader.js');
 const moduleDataClass = require('./lib/moduleData.js');
 const dispatcherClass = require('./lib/dispatcher.js');
@@ -25,7 +25,8 @@ const coreListeners = require('./lib/coreListeners.js');
 basePrefs.findOneAsync({name: 'name'}).then(function(instanceName){
     const dispatcher = new dispatcherClass();
     const moduleData = new moduleDataClass(interfacePrefs, pluginPrefs);
+    const systemPrefs = new systemPrefsClass(basePrefs);
     const cron = new cronClass();
-    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, cron);
+    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron);
     moduleLoader.getModules();
 });
