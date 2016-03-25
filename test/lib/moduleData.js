@@ -80,19 +80,19 @@ describe('Module Preferences', function() {
         });
     });
 
-    it('get returns the correct value', function() {
+    it('getPref returns the correct value', function() {
         const moduleList = moduleData.getPref('plugin', 'plugin1', 'plugin1-pref1-name');
 
         return expect(moduleList).to.eventually.equal('plugin1-pref1-value');
     });
 
-    it('get throws an exception if pref does not exist', function() {
+    it('getPref throws an exception if pref does not exist', function() {
         const moduleList = moduleData.getPref('plugin', 'plugin1', 'non-existant');
 
         return expect(moduleList).to.be.rejectedWith(Error, 'Preference non-existant not found for module plugin1');
     });
 
-    it('get throws an exception if module not found', function() {
+    it('getPref throws an exception if module not found', function() {
         const moduleList = moduleData.getPref('plugin', 'fake', 'non-existant');
 
         return expect(moduleList).to.be.rejectedWith(Error, 'No preferences found for fake');
@@ -102,6 +102,12 @@ describe('Module Preferences', function() {
         const enabled = moduleData.get('interface', 'interface2', 'enabled');
 
         return expect(enabled).to.eventually.be.true;
+    });
+
+    it('get returns a falsy value where relevant', function() {
+        const enabled = moduleData.get('interface', 'interface1', 'enabled');
+
+        return expect(enabled).to.eventually.be.false;
     });
 
     it('get throws an exception if module not found', function() {
