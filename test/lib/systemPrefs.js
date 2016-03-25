@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
+const chaiAsPromised = require('chai-as-promised');
 const nedb = require('nedb');
 const bluebird = require('bluebird');
 
@@ -15,23 +15,23 @@ describe('System Preferences', function() {
     let systemPrefs;
     before(function(done) {
         testSystemPrefsDb.insertAsync({
-            name: "port",
-            type: "text",
-            value: "8080"
+            name: 'port',
+            type: 'text',
+            value: '8080'
         }).then(() => {
             return testSystemPrefsDb.insertAsync({
-                name: "default_permission",
-                type: "text",
-                value: "standard"
+                name: 'default_permission',
+                type: 'text',
+                value: 'standard'
             });
         }).then(() => {
             return testSystemPrefsDb.insertAsync({
-                name: "falsy",
-                type: "checkbox",
+                name: 'falsy',
+                type: 'checkbox',
                 value: false
             });
         }).then(() => {
-            const systemPrefsClass = require("../../lib/systemPrefs.js");
+            const systemPrefsClass = require('../../lib/systemPrefs.js');
             systemPrefs = new systemPrefsClass(testSystemPrefsDb);
             done();
         });

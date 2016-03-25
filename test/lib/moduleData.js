@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
+const chaiAsPromised = require('chai-as-promised');
 const nedb = require('nedb');
 const bluebird = require('bluebird');
 
@@ -74,7 +74,7 @@ describe('Module Preferences', function() {
                 ]
             })
         }).then(() => {
-            const moduleDataClass = require("../../lib/moduleData.js");
+            const moduleDataClass = require('../../lib/moduleData.js');
             moduleData = new moduleDataClass(testInterfaceDb, testPluginDb);
             done();
         });

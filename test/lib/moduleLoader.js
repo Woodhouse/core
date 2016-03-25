@@ -1,7 +1,7 @@
 'use strict';
 
 const chai = require('chai');
-const chaiAsPromised = require("chai-as-promised");
+const chaiAsPromised = require('chai-as-promised');
 const mockery = require('mockery');
 const bluebird = require('bluebird');
 
@@ -126,7 +126,7 @@ describe('Module Loader', function() {
             }
         });
 
-        const moduleLoaderClass = require("../../lib/moduleLoader.js");
+        const moduleLoaderClass = require('../../lib/moduleLoader.js');
         moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockSystemPrefs, mockCron);
     });
 
