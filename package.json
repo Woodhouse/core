@@ -16,14 +16,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/woodhouse-bot/core.git"
+    "url": "https://github.com/woodhouse/core.git"
   },
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/woodhouse-bot/core/issues"
+    "url": "https://github.com/woodhouse/core/issues"
   },
-  "homepage": "https://github.com/woodhouse-bot/core",
+  "homepage": "https://github.com/woodhouse/core",
   "devDependencies": {
     "chai": "^3.4.1",
     "chai-as-promised": "^5.2.0",
