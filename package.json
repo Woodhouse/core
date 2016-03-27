@@ -5,8 +5,8 @@
   "main": "index.js",
   "dependencies": {
     "bluebird": "^3.3.4",
-    "cron": "~1.0.5",
-    "ip": "^0.3.3",
+    "cron": "^1.1.0",
+    "ip": "^1.1.2",
     "nedb": "^1.8.0",
     "readline-history": "^1.2.0"
   },
@@ -25,11 +25,11 @@
   },
   "homepage": "https://github.com/woodhouse/core",
   "devDependencies": {
-    "chai": "^3.4.1",
+    "chai": "^3.5.0",
     "chai-as-promised": "^5.2.0",
     "istanbul": "^0.4.2",
-    "mocha": "^2.3.4",
+    "mocha": "^2.4.5",
     "mockery": "^1.4.1",
-    "sinon": "^1.17.2"
+    "sinon": "^1.17.3"
   }
 }
