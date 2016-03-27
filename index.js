@@ -6,10 +6,10 @@ const nedb = require('nedb');
 
 // Data
 const systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true }));
-const interfacePrefs = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true }));
-const pluginPrefs = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true }));
-const basePrefs = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true }));
-const users = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true }));
+const interfacePrefData = promise.promisifyAll(new nedb({ filename: 'interface-prefs.db', autoload: true }));
+const pluginPrefData = promise.promisifyAll(new nedb({ filename: 'plugin-prefs.db', autoload: true }));
+const basePrefData = promise.promisifyAll(new nedb({ filename: 'base-prefs.db', autoload: true }));
+const usersData = promise.promisifyAll(new nedb({ filename: 'users.db', autoload: true }));
 
 // Woodhouse modules
 const systemPrefsClass = require('./lib/systemPrefs.js');
@@ -22,10 +22,11 @@ const cronClass = require('./lib/cron.js');
 const yesNoClass = require('./lib/yesNo.js');
 const coreListeners = require('./lib/coreListeners.js');
 
-basePrefs.findOneAsync({name: 'name'}).then(function(instanceName){
+basePrefData.findOneAsync({name: 'name'}).then(function(instanceName){
+    const users = new usersClass(usersData);
     const dispatcher = new dispatcherClass();
-    const moduleData = new moduleDataClass(interfacePrefs, pluginPrefs);
-    const systemPrefs = new systemPrefsClass(basePrefs);
+    const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
+    const systemPrefs = new systemPrefsClass(basePrefData);
     const cron = new cronClass();
     const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron);
     moduleLoader.getModules();
