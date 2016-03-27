@@ -7,7 +7,7 @@
     "bluebird": "^3.3.4",
     "cron": "~1.0.5",
     "ip": "^0.3.3",
-    "nedb": "~0.10.5",
+    "nedb": "^1.8.0",
     "readline-history": "^1.2.0"
   },
   "scripts": {
