@@ -267,7 +267,7 @@ describe('Users', function() {
         return expect(user).to.be.rejectedWith(Error, 'The username fake does not exist');
     });
 
-    it('remove should error if the username does not exist', function() {
+    it('remove should successfully remove the user', function() {
         return testUsersDb.findOneAsync({username: 'admin'}).then((user) => {
             return users.remove('admin').then(() => {
                 return bluebird.all([
