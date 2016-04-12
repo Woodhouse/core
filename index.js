@@ -24,9 +24,9 @@ const coreListeners = require('./lib/coreListeners.js');
 
 basePrefData.findOneAsync({name: 'name'}).then(function(instanceName){
     const users = new usersClass(usersData);
-    const dispatcher = new dispatcherClass();
     const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
     const systemPrefs = new systemPrefsClass(basePrefData);
+    const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
     const cron = new cronClass();
     const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron);
     moduleLoader.getModules();

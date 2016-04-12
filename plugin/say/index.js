@@ -8,11 +8,11 @@ var say = function(){
 say.prototype.init = function(){
     var self = this;
     this.listen('(say|tell) (:<message>.+?)', 'standard', function(from, interface, params){
-        self.sendMessage(params[1], interface, from);
+        self.sendMessage(from, interface, params[1]);
     })
 
     this.listen('who steals cars\\?', 'standard', function(from, interface){
-        self.sendMessage('GYPPOS!', interface, from);
+        self.sendMessage(from, interface, 'GYPPOS!');
     })
 
 }

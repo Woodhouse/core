@@ -41,7 +41,7 @@ shell.prototype.init = function() {
             }
         });
 
-        this.addMessageSender(function(message, to){
+        this.addMessageSender(function(to, message){
             console.log('\n' + message);
             self.cli.prompt(true);
         });
