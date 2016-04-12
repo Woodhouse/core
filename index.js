@@ -16,7 +16,6 @@ const systemPrefsClass = require('./lib/systemPrefs.js');
 const moduleLoaderClass = require('./lib/moduleLoader.js');
 const moduleDataClass = require('./lib/moduleData.js');
 const dispatcherClass = require('./lib/dispatcher.js');
-const rolesClass = require('./lib/roles.js');
 const usersClass = require('./lib/users.js');
 const cronClass = require('./lib/cron.js');
 const yesNoClass = require('./lib/yesNo.js');
