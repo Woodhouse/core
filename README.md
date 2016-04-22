@@ -1,5 +1,7 @@
 # Woodhouse
 
+Note: This project is currently being rewritten in the [v2 branch](https://github.com/Woodhouse/core/tree/dev/v2)
+
 This readme should help you get the basics of Woodhouse up and running
 
 ## Installation
