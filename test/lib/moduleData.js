@@ -123,13 +123,13 @@ describe('Module Preferences', function() {
     });
 
     it('addModule throws an exception if module name is null', function() {
-        const module = moduleData.addModule('plugin', {});
+        const module = moduleData.addModule({}, 'plugin');
 
         return expect(module).to.be.rejectedWith(Error, 'No name set for new module');
     });
 
     it('addModule sets properties to defaults if not set', function() {
-        const module = moduleData.addModule('plugin', {name: 'test'});
+        const module = moduleData.addModule({name: 'test'}, 'plugin');
 
         return bluebird.all([
             expect(module).to.eventually.have.property('name', 'test'),
@@ -144,14 +144,14 @@ describe('Module Preferences', function() {
     });
 
     it('addModule sets properties to set values', function() {
-        const module = moduleData.addModule('plugin', {
+        const module = moduleData.addModule({
             name: 'testname',
             displayname: 'testdisplayname',
             description: 'testdescription',
             canAddNewPrefs: true,
             defaultPrefs: ['testpref'],
             newPrefsTemplate: ['testpreftemplate']
-        });
+        }, 'plugin');
 
         return bluebird.all([
             expect(module).to.eventually.have.property('name', 'testname'),
