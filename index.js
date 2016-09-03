@@ -23,11 +23,12 @@ const yesNoClass = require('./lib/yesNo.js');
 const coreListeners = require('./lib/coreListeners.js');
 
 basePrefData.findOneAsync({name: 'name'}).then(function(instanceName){
+    const yesNo = new yesNoClass();
     const cron = new cronClass(cronData);
     const users = new usersClass(usersData);
     const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
     const systemPrefs = new systemPrefsClass(basePrefData);
     const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
-    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron);
+    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo);
     moduleLoader.getModules();
 });

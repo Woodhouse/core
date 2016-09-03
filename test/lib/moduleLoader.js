@@ -74,6 +74,12 @@ describe('Module Loader', function() {
         }
     };
 
+    const mockYesNo = {
+        add: () => {},
+        removeLast: () => {},
+        getLast: () => {}
+    }
+
     before(function() {
         mockery.enable({
             warnOnReplace: false,
@@ -127,7 +133,7 @@ describe('Module Loader', function() {
         });
 
         const moduleLoaderClass = require('../../lib/moduleLoader.js');
-        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockSystemPrefs, mockCron);
+        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockSystemPrefs, mockCron, mockYesNo);
     });
 
     it('getmodulelist should only return folders', function() {
