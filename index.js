@@ -20,7 +20,7 @@ const dispatcherClass = require('./lib/dispatcher.js');
 const usersClass = require('./lib/users.js');
 const cronClass = require('./lib/cron.js');
 const yesNoClass = require('./lib/yesNo.js');
-const coreListeners = require('./lib/coreListeners.js');
+const coreListenersClass = require('./lib/coreListeners.js');
 
 basePrefData.findOneAsync({name: 'name'}).then(function(instanceName){
     const yesNo = new yesNoClass();
@@ -30,5 +30,6 @@ basePrefData.findOneAsync({name: 'name'}).then(function(instanceName){
     const systemPrefs = new systemPrefsClass(basePrefData);
     const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
     const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo);
+    const coreListeners = new coreListenersClass(dispatcher, moduleData, systemPrefs, cron, yesNo, users);
     moduleLoader.getModules();
 });
