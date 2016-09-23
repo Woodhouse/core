@@ -23,11 +23,9 @@ testem.log
 /plugin/
 !/plugin/say
 
-base-prefs.db
-interface-prefs.db
-plugin-prefs.db
-system-data.db
-users.db
-cron.db
+*.db
+*.db.backup
+
+*.DS_Store
 
 /coverage/
