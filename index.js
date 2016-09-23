@@ -27,6 +27,9 @@ const upgrade = new upgradeClass(systemData, interfacePrefData, pluginPrefData, 
 
 upgrade.run().then(() => {
 	return basePrefData.findOneAsync({name: 'name'})
+}).catch((error) => {
+    console.log(error.message);
+    process.exit();
 }).then(function(instanceName){
     const yesNo = new yesNoClass();
     const cron = new cronClass(cronData);
