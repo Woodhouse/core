@@ -1,20 +1,21 @@
-var say = function(){
-    this.name = 'say';
-    this.displayname = 'Say';
-    this.description = 'Make woodhouse say things back to you';
-}
+'use strict';
 
+class say {
+    constructor() {
+        this.name = 'say';
+        this.displayname = 'Say';
+        this.description = 'Make woodhouse say things back to you';
+    }
 
-say.prototype.init = function(){
-    var self = this;
-    this.listen('(say|tell) (:<message>.+?)', 'standard', function(from, interface, params){
-        self.sendMessage(from, interface, params[1]);
-    })
+    init() {
+        this.listen('(say|tell) (:<message>.+?)', 'standard', (from, interfaceName, params) => {
+            this.sendMessage(from, interfaceName, params[1]);
+        })
 
-    this.listen('who steals cars\\?', 'standard', function(from, interface){
-        self.sendMessage(from, interface, 'GYPPOS!');
-    })
-
+        this.listen('who steals cars\\?', 'standard', (from, interfaceName) => {
+            this.sendMessage(from, interfaceName, 'GYPPOS!');
+        })
+    }
 }
 
 module.exports = say;
