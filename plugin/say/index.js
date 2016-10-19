@@ -9,11 +9,11 @@ class say {
 
     init() {
         this.listen('(say|tell) (:<message>.+?)', 'standard', (from, interfaceName, params) => {
-            this.sendMessage(from, interfaceName, params[1]);
+            return params[1];
         })
 
         this.listen('who steals cars\\?', 'standard', (from, interfaceName) => {
-            this.sendMessage(from, interfaceName, 'GYPPOS!');
+            return `GYPPOS!`;
         })
     }
 }
