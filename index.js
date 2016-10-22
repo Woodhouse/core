@@ -22,11 +22,12 @@ const cronClass = require('./lib/cron.js');
 const yesNoClass = require('./lib/yesNo.js');
 const coreListenersClass = require('./lib/coreListeners.js');
 const upgradeClass = require('./lib/upgrade.js');
+const broadcastClass = require('./lib/broadcast.js');
 
 const upgrade = new upgradeClass(systemData, interfacePrefData, pluginPrefData, basePrefData, usersData, cronData);
 
 upgrade.run().then(() => {
-	return basePrefData.findOneAsync({name: 'name'})
+    return basePrefData.findOneAsync({name: 'name'})
 }).catch((error) => {
     console.log(error.message);
     process.exit();
@@ -34,10 +35,11 @@ upgrade.run().then(() => {
     const yesNo = new yesNoClass();
     const cron = new cronClass(cronData);
     const users = new usersClass(usersData);
+    const broadcast = new broadcastClass();
     const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
     const systemPrefs = new systemPrefsClass(basePrefData);
     const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
-    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo);
+    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo, broadcast);
     const coreListeners = new coreListenersClass(dispatcher, moduleData, systemPrefs, cron, yesNo, users);
     moduleLoader.getModules();
 });
