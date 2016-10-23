@@ -32,6 +32,6 @@
     "istanbul": "^0.4.2",
     "mocha": "^2.4.5",
     "mockery": "^1.4.1",
-    "sinon": "^1.17.3"
+    "sinon": "git://github.com/sinonjs/sinon.git#master"
   }
 }

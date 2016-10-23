@@ -4,6 +4,8 @@ const chai = require('chai');
 const chaiAsPromised = require('chai-as-promised');
 const mockery = require('mockery');
 const bluebird = require('bluebird');
+const sinon = require('sinon');
+const nedb = require('nedb');
 
 chai.use(chaiAsPromised);
 
@@ -11,74 +13,37 @@ const expect = chai.expect;
 
 describe('Module Loader', function() {
     let moduleLoader;
+    let sandbox;
 
-    const mockDispatcher = {
-        addMessageSender: () => {
-            return 'addMessageSender';
-        },
-        messageRecieved: () => {
-            return 'messageRecieved';
-        },
-        listen: () => {
-            return 'listen';
-        },
-        sendMessage: () => {
-            return 'sendMessage';
-        },
-        loadListenerAliases: () => {
-            return 'loadListenerAliases';
-        }
-    };
+    const interfacePrefData = bluebird.promisifyAll(new nedb({ filename: 'testinterface-prefs.db', autoload: true, inMemoryOnly: true }));
+    const pluginPrefData = bluebird.promisifyAll(new nedb({ filename: 'testplugin-prefs.db', autoload: true, inMemoryOnly: true }));
+    const basePrefData = bluebird.promisifyAll(new nedb({ filename: 'testbase-prefs.db', autoload: true, inMemoryOnly: true }));
+    const usersData = bluebird.promisifyAll(new nedb({ filename: 'testusers.db', autoload: true, inMemoryOnly: true }));
+    const cronData = bluebird.promisifyAll(new nedb({ filename: 'testcron.db', autoload: true, inMemoryOnly: true }));
 
-    const mockModuleData = {
-        getPref: () => {
-            return 'getPref';
-        },
-        get: (type, name, key) => {
-            if (key === 'enabled') {
-                if (name === 'testModule1') {
-                    return bluebird.resolve(true);
-                } else if (name === 'testModule2') {
-                    return bluebird.resolve(false)
-                } else if (name === 'testModule3') {
-                    let error = new Error('No data found for ' + name);
-                    error.shortCode = 'no-prefs';
-                    return bluebird.reject(error);
-                } else {
-                    return bluebird.reject(new Error('error!'));
-                }
-            }
+    const broadcastClass = require('../../lib/broadcast.js');
+    const yesNoClass = require('../../lib/yesNo.js');
+    const usersClass = require('../../lib/users.js');
+    const cronClass = require('../../lib/cron.js');
+    const moduleDataClass = require('../../lib/moduleData.js');
+    const systemPrefsClass = require('../../lib/systemPrefs.js');
+    const dispatcherClass = require('../../lib/dispatcher.js');
 
-            return 'getData';
-        },
-        addModule: () => {
-            return bluebird.resolve();
-        }
-    };
+    const broadcast = new broadcastClass();
+    const yesNo = new yesNoClass();
+    const users = new usersClass(usersData);
+    const cron = new cronClass(cronData);
+    const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
+    const systemPrefs = new systemPrefsClass(basePrefData);
+    const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
 
-    const mockSystemPrefs = {
-        get: () => {
-            return 'getSystemPref';
-        }
-    }
+    beforeEach(function () {
+        sandbox = sinon.sandbox.create();
+    });
 
-    const mockCron = {
-        add: () => {
-            return 'add';
-        },
-        remove: () => {
-            return 'remove';
-        },
-        registerHandler: () => {
-            return 'registerHandler';
-        }
-    };
-
-    const mockYesNo = {
-        add: () => {},
-        removeLast: () => {},
-        getLast: () => {}
-    }
+    afterEach(function () {
+        sandbox.restore();
+    });
 
     before(function() {
         mockery.enable({
@@ -133,7 +98,7 @@ describe('Module Loader', function() {
         });
 
         const moduleLoaderClass = require('../../lib/moduleLoader.js');
-        moduleLoader = new moduleLoaderClass(mockDispatcher, mockModuleData, mockSystemPrefs, mockCron, mockYesNo);
+        moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo, broadcast);
     });
 
     it('getmodulelist should only return folders', function() {
@@ -146,32 +111,60 @@ describe('Module Loader', function() {
     });
 
     it('addCoreMethods should make methods available on module', function() {
+        const broadcastStub = sandbox.stub(broadcast);
+        const yesNoStub = sandbox.stub(yesNo);
+        const usersStub = sandbox.stub(users);
+        const cronStub = sandbox.stub(cron);
+        const moduleDataStub = sandbox.stub(moduleData);
+        const systemPrefsStub = sandbox.stub(systemPrefs);
+        const dispatcherStub = sandbox.stub(dispatcher);
         const module = {}
         moduleLoader.addCoreMethods(module, 'test');
 
         expect(module).to.have.property('addMessageSender');
-        expect(module.addMessageSender()).to.equal('addMessageSender');
+        module.addMessageSender();
+        expect(dispatcherStub.addMessageSender.calledOnce).to.be.true;
+
         expect(module).to.have.property('messageRecieved');
-        expect(module.messageRecieved()).to.equal('messageRecieved');
+        module.messageRecieved()
+        expect(dispatcherStub.messageRecieved.calledOnce).to.be.true;
+
         expect(module).to.have.property('listen');
-        expect(module.listen()).to.equal('listen');
+        module.listen();
+        expect(dispatcherStub.listen.calledOnce).to.be.true;
+
         expect(module).to.have.property('sendMessage');
-        expect(module.sendMessage()).to.equal('sendMessage');
+        module.sendMessage();
+        expect(dispatcherStub.sendMessage.calledOnce).to.be.true;
+
         expect(module).to.have.property('registerCronHandler');
-        expect(module.registerCronHandler()).to.equal('registerHandler');
+        module.registerCronHandler();
+        expect(cronStub.registerHandler.calledOnce).to.be.true;
+
         expect(module).to.have.property('addCronJob');
-        expect(module.addCronJob()).to.equal('add');
+        module.addCronJob();
+        expect(cronStub.add.calledOnce).to.be.true;
+
         expect(module).to.have.property('removeCronJob');
-        expect(module.removeCronJob()).to.equal('remove');
+        module.removeCronJob();
+        expect(cronStub.remove.calledOnce).to.be.true;
+
         expect(module).to.have.property('getPref');
-        expect(module.getPref()).to.equal('getPref');
+        module.getPref();
+        expect(moduleDataStub.getPref.calledOnce).to.be.true;
+
         expect(module).to.have.property('getData');
-        expect(module.getData()).to.equal('getData');
+        module.getData();
+        expect(moduleDataStub.get.calledOnce).to.be.true;
+
         expect(module).to.have.property('getSystemPref');
-        expect(module.getSystemPref()).to.equal('getSystemPref');
+        module.getSystemPref();
+        expect(systemPrefsStub.get.calledOnce).to.be.true;
     });
 
     it('loadModule should load the module if it is enabled', function() {
+        const moduleDataGetStub = sandbox.stub(moduleData, 'get');
+        moduleDataGetStub.returns(bluebird.resolve(true));
         const module = moduleLoader.loadModule('testModule1', 'plugin');
 
         return expect(module).to.eventually.have.property('initCalled', true)
@@ -190,6 +183,8 @@ describe('Module Loader', function() {
     });
 
     it('loadModule should rethrow any exceptions besides the no-prefs one', function() {
+        const moduleDataGetStub = sandbox.stub(moduleData, 'get');
+        moduleDataGetStub.returns(bluebird.reject(new Error('error!')));
         const module = moduleLoader.loadModule('testModule4', 'plugin');
 
         return expect(module).to.be.rejectedWith(Error, 'error!');
