@@ -12,7 +12,8 @@ class say {
             return params[1];
         })
 
-        this.listen('who steals cars\\?', 'standard', (from, interfaceName) => {
+        this.listen('who steals cars(\\?|)', 'standard', (from, interfaceName) => {
+            // Archer quote: https://www.youtube.com/watch?v=h8P2BPHmqsg
             return `GYPPOS!`;
         })
     }
