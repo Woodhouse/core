@@ -10,6 +10,15 @@ class upgrade {
                 value: 8080,
                 type: `text`
             }]
+        }).then(() => {
+            return this.usersData.insertAsync({
+                username: `api-user`,
+                accounts: {
+                    'rpc-api': `api-user`
+                },
+                role: `standard`,
+                defaultAccount: `rpc-user`
+            });
         });
 	}
 }
