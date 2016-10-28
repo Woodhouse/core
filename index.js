@@ -3,6 +3,7 @@
 // Npm modules
 const promise = require('bluebird');
 const nedb = require('nedb');
+const ip = require('ip');
 
 // Data
 const systemData = promise.promisifyAll(new nedb({ filename: 'system-data.db', autoload: true }));
@@ -42,5 +43,34 @@ upgrade.run().then(() => {
     const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo, broadcast);
     const coreListeners = new coreListenersClass(dispatcher, moduleData, systemPrefs, cron, yesNo, users);
     moduleLoader.getModules();
+
+    return {
+        yesNo,
+        cron,
+        users,
+        broadcast,
+        moduleData,
+        systemPrefs,
+        dispatcher,
+        moduleLoader,
+        coreListeners,
+    }
+}).then((systemModules) => {
+    const data = [
+            systemModules.moduleData.getPref(`interface`, `rpc-api`, `port`),
+            systemModules.systemPrefs.get('name')
+        ];
+
+    promise.all(data).then((resolved) => {
+        setInterval(() => {
+            systemModules.broadcast.send({
+                name: 'core'
+            }, {
+                ip: ip.address(),
+                apiPort: resolved[0],
+                name: resolved[1]
+            });
+        }, 120000)
+    });
 });
 
