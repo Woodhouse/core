@@ -19,8 +19,26 @@ class upgrade {
                 role: `standard`,
                 defaultAccount: `rpc-user`
             });
+        }).then(() => {
+            return this.pluginPrefData.insertAsync({
+                name: `time`,
+                displayname: `Time`,
+                description: `Get the time`,
+                enabled: true,
+                default_permission: ``,
+                canAddNewPrefs: false,
+                prefs: [],
+                newPrefsTemplate: []
+            });
+        }).then(() => {
+            return this.basePrefData.insertAsync({
+                name: `timezone`,
+                type: `text`,
+                value: `Europe/London`,
+                group: null
+            });
         });
-	}
+    }
 }
 
 module.exports = upgrade;
