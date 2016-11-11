@@ -7,7 +7,9 @@ class Api {
         this.name = `rpc-api`;
         this.displayname = `RPC API`;
         this.description = `Issue commands through an API`;
-        this.defaultPrefs = [{name: `port`, value: `8080`, type: `text`}];
+        this.defaultPrefs = {
+            port: {displayname: `Port`, value: `8080`, type: `text`}
+        };
     }
 
     init() {
