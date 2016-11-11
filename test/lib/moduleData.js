@@ -18,60 +18,52 @@ describe('Module Preferences', function() {
         testInterfaceDb.insertAsync({
             name: 'interface1',
             enabled: false,
-            prefs: [
-                {
-                    name: 'interface1-pref1-name',
+            prefs: {
+                'interface1-pref1-name': {
                     value: 'interface1-pref1-value'
                 },
-                {
-                    name: 'interface1-pref2-name',
+                'interface1-pref2-name': {
                     value: 'interface1-pref2-value'
                 }
-            ]
+            }
         }).then(() => {
             return testInterfaceDb.insertAsync({
                 name: 'interface2',
                 enabled: true,
-                prefs: [
-                    {
-                        name: 'interface2-pref1-name',
+                prefs: {
+                    'interface2-pref1-name': {
                         value: 'interface2-pref1-value'
                     },
-                    {
-                        name: 'interface2-pref2-name',
+                    'interface2-pref2-name': {
                         value: 'interface2-pref2-value'
                     }
-                ]
+                }
             })
         }).then(() => {
             return testPluginDb.insertAsync({
                 name: 'plugin1',
                 enabled: false,
-                prefs: [
-                    {
-                        name: 'plugin1-pref1-name',
+                prefs: {
+                    'plugin1-pref1-name': {
                         value: 'plugin1-pref1-value'
                     },
-                    {
-                        name: 'plugin1-pref2-name',
+                    'plugin1-pref2-name': {
                         value: 'plugin1-pref2-value'
                     }
-                ]
+                }
             })
         }).then(() => {
             return testPluginDb.insertAsync({
                 name: 'plugin2',
                 enabled: false,
-                prefs: [
-                    {
-                        name: 'plugin2-pref1-name',
+                prefs: {
+                    'plugin2-pref1-name': {
                         value: 'plugin2-pref1-value'
                     },
-                    {
-                        name: 'plugin2-pref2-name',
+                    'plugin2-pref2-name': {
                         value: 'plugin2-pref2-value'
                     }
-                ]
+                }
             })
         }).then(() => {
             const moduleDataClass = require('../../lib/moduleData.js');
@@ -137,9 +129,7 @@ describe('Module Preferences', function() {
             expect(module).to.eventually.have.property('description', ''),
             expect(module).to.eventually.have.property('enabled', false),
             expect(module).to.eventually.have.property('default_permission', ''),
-            expect(module).to.eventually.have.property('canAddNewPrefs', false),
-            expect(module).to.eventually.have.property('prefs').and.be.empty,
-            expect(module).to.eventually.have.property('newPrefsTemplate').and.be.empty
+            expect(module).to.eventually.have.property('prefs').and.be.empty
         ]);
     });
 
@@ -159,9 +149,7 @@ describe('Module Preferences', function() {
             expect(module).to.eventually.have.property('description', 'testdescription'),
             expect(module).to.eventually.have.property('enabled', false),
             expect(module).to.eventually.have.property('default_permission', ''),
-            expect(module).to.eventually.have.property('canAddNewPrefs', true),
-            expect(module).to.eventually.have.property('prefs').and.deep.equal(['testpref']),
-            expect(module).to.eventually.have.property('newPrefsTemplate').and.deep.equal(['testpreftemplate'])
+            expect(module).to.eventually.have.property('prefs').and.deep.equal(['testpref'])
         ]);
     });
 });
