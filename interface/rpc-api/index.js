@@ -2,7 +2,7 @@
 
 const bluebird = require(`bluebird`);
 const https = require(`https`);
-const crypto = bluebird.promisifyAll(require(`crypto`));
+const crypto = require(`crypto`);
 const path = require(`path`);
 const nedb = require(`nedb`);
 const fs = bluebird.promisifyAll(require(`fs`));
@@ -15,7 +15,8 @@ class Api {
         this.displayname = `RPC API`;
         this.description = `Issue commands through an API`;
         this.defaultPrefs = {
-            port: {displayname: `Port`, value: `8443`, type: `text`}
+            port: {displayname: `Port`, value: `8443`, type: `text`},
+            domain: {displayname: `Domain`, value: `hellowoodhouse.com`, type: `text`}
         };
     }
 
@@ -26,10 +27,9 @@ class Api {
                     return bluebird.reject(`A client with that name already exists, please choose another.`);
                 }
 
-                return crypto.randomBytesAsync(32);
-            }).then((key) => {
-                key = key.toString('base64');
-                return clients.insertAsync({name, key});
+                const key = crypto.randomBytes(128).toString('base64').slice(0,64);
+                const id = crypto.randomBytes(64).toString('hex').slice(0,32);
+                return clients.insertAsync({name, key, id});
             }).then((doc) => {
 
                 return bluebird.resolve(`Client ${name} has been added. The key is ${doc.key}`);
@@ -106,9 +106,7 @@ class Api {
                     });
                 });
             });
-server.on('clientError', (err, socket) => {
-    console.log(err)
-});
+
             server.listen(port);
         });
     }

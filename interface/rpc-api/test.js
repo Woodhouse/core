@@ -4,7 +4,7 @@
 const https = require(`https`);
 const fs = require(`fs`);
 const path = require(`path`);
-const hostname = `local.hellowoodhouse.com`
+const hostname = `855c4edcc903abcb1695f24bdbd699d3.hellowoodhouse.com`
 const port = 8443;
 const evilDns = require(`evil-dns`);
 
@@ -17,11 +17,11 @@ let req = https.request({
     port: port,
     path: `/`,
     method: `POST`,
-    ca: fs.readFileSync(path.join(__dirname, `certs`, `client`, `root-ca.crt.pem`)),
-    key: fs.readFileSync(path.join(__dirname, `certs`, `client`, `client.key.pem`)),
-    cert: fs.readFileSync(path.join(__dirname, `certs`, `client`, `client.crt.pem`)),
+    ca: fs.readFileSync(path.join(__dirname, `certs`, `client`, `test`, `root-ca.crt.pem`)),
+    key: fs.readFileSync(path.join(__dirname, `certs`, `client`, `test`, `client.key.pem`)),
+    cert: fs.readFileSync(path.join(__dirname, `certs`, `client`, `test`, `client.crt.pem`)),
     headers: {
-        'x-auth-key': `RODAgpl6I1/LwFbbnaR2jJ5tbZkBAZZwLl4f88Up+bU=`
+        'x-auth-key': fs.readFileSync(path.join(__dirname, `certs`, `client`, `test`, `api-key.txt`)),
     }
 }, function(res) {
     res.pipe(process.stdout);

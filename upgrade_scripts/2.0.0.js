@@ -1,3 +1,5 @@
+const crypto = require('crypto');
+
 class upgrade {
 	run() {
         return this.interfacePrefData.findAsync({}).each((item) => {
@@ -40,7 +42,12 @@ class upgrade {
                 prefs: {
                     port: {
                         displayname: `Port`,
-                        value: 8080,
+                        value: 8443,
+                        type: `text`
+                    },
+                    domain: {
+                        displayname: `Domain`,
+                        value: `hellowoodhouse.com`,
                         type: `text`
                     }
                 }
@@ -65,12 +72,17 @@ class upgrade {
                 prefs: {}
             });
         }).then(() => {
-            return this.basePrefData.insertAsync({
+            return this.basePrefData.insertAsync([{
                 name: `timezone`,
                 type: `text`,
                 value: `Europe/London`,
                 group: null
-            });
+            },{
+                name: `id`,
+                type: `text`,
+                value: crypto.randomBytes(64).toString('hex').slice(0,32),
+                group: null
+            }]);
         });
     }
 }
