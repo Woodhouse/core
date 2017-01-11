@@ -58,17 +58,21 @@ upgrade.run().then(() => {
 }).then((systemModules) => {
     const data = [
             systemModules.moduleData.getPref(`interface`, `rpc-api`, `port`),
-            systemModules.systemPrefs.get('name')
+            systemModules.moduleData.getPref(`interface`, `rpc-api`, `domain`),
+            systemModules.systemPrefs.get('name'),
+            systemModules.systemPrefs.get('id')
         ];
 
-    promise.all(data).then((resolved) => {
+    promise.all(data).then(([apiPort, domain, name, id]) => {
         setInterval(() => {
             systemModules.broadcast.send({
                 name: 'core'
             }, {
                 ip: ip.address(),
-                apiPort: resolved[0],
-                name: resolved[1]
+                apiPort,
+                domain,
+                name,
+                id
             });
         }, 120000)
     });
