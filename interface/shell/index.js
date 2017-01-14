@@ -1,47 +1,31 @@
 'use strict';
 
-const readline = require('readline-history');
-const stdin = process.openStdin();
-const stdout = process.stdout;
+const ipc = require(`node-ipc`);
+
+ipc.config.id = `woodhousecore`;
+ipc.config.retry = 1500;
+ipc.config.silent = true;
 
 class shell {
     constructor() {
-        this.name = 'shell';
-        this.displayname = 'Shell';
-        this.description = 'Issue commands through the command line';
+        this.name = `shell`;
+        this.displayname = `Shell`;
+        this.description = `Issue commands through the command line`;
     }
 
     init() {
-        this.getSystemPref('name').then((name) => {
-            readline.createInterface({
-                input: stdin,
-                output: stdout,
-                path: `${__dirname}/history`,
-                maxLength: 1024000,
-                next: (cli) => {
-                    this.cli = cli;
-                    this.cli.on('line', (command) => {
-                        if (command === 'exit') {
-                            return process.exit();
-                        }
-                        this.cli.prompt(true);
-                        this.messageRecieved('admin', `${name} ${command}`)
-                    });
+        this.getSystemPref(`name`).then((name) => {
+            ipc.serve(() => {
+                ipc.server.on(`app.message`, (message, socket) => {
+                    this.messageRecieved(socket, `${name} ${message}`, `admin`);
+                });
 
-                    this.cli.on('close', () => {
-                        console.log('');
-                        process.exit();
-                    });
-
-                    this.cli.setPrompt(`${name}> `);
-                    this.cli.prompt();
-                }
+                this.addMessageSender((socket, message) => {
+                    ipc.server.emit(socket, `app.message`, message);
+                });
             });
 
-            this.addMessageSender((to, message) => {
-                console.log(`\n${message}`);
-                this.cli.prompt(true);
-            });
+            ipc.server.start();
         });
     }
 }
