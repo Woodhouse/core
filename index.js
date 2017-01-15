@@ -1,5 +1,7 @@
 'use strict';
 
+const args = process.argv.slice(2);
+
 // Npm modules
 const promise = require('bluebird');
 const nedb = require('nedb');
@@ -27,54 +29,58 @@ const broadcastClass = require('./lib/broadcast.js');
 
 const upgrade = new upgradeClass(systemData, interfacePrefData, pluginPrefData, basePrefData, usersData, cronData);
 
-upgrade.run().then(() => {
-    return basePrefData.findOneAsync({name: 'name'})
-}).catch((error) => {
-    console.log(error.message);
-    process.exit();
-}).then(function(instanceName){
-    const yesNo = new yesNoClass();
-    const cron = new cronClass(cronData);
-    const users = new usersClass(usersData);
-    const broadcast = new broadcastClass();
-    const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
-    const systemPrefs = new systemPrefsClass(basePrefData);
-    const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
-    const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo, broadcast);
-    const coreListeners = new coreListenersClass(dispatcher, moduleData, systemPrefs, cron, yesNo, users);
-    moduleLoader.getModules();
+const upgradePromise = upgrade.run();
 
-    return {
-        yesNo,
-        cron,
-        users,
-        broadcast,
-        moduleData,
-        systemPrefs,
-        dispatcher,
-        moduleLoader,
-        coreListeners,
-    }
-}).then((systemModules) => {
-    const data = [
-            systemModules.moduleData.getPref(`interface`, `rpc-api`, `port`),
-            systemModules.moduleData.getPref(`interface`, `rpc-api`, `domain`),
-            systemModules.systemPrefs.get('name'),
-            systemModules.systemPrefs.get('id')
-        ];
+if (args.indexOf('--upgrade-only')) {
+    upgradePromise.then(() => {
+        return basePrefData.findOneAsync({name: 'name'})
+    }).catch((error) => {
+        console.log(error.message);
+        process.exit();
+    }).then(function(instanceName){
+        const yesNo = new yesNoClass();
+        const cron = new cronClass(cronData);
+        const users = new usersClass(usersData);
+        const broadcast = new broadcastClass();
+        const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
+        const systemPrefs = new systemPrefsClass(basePrefData);
+        const dispatcher = new dispatcherClass(users, moduleData, systemPrefs);
+        const moduleLoader = new moduleLoaderClass(dispatcher, moduleData, systemPrefs, cron, yesNo, broadcast);
+        const coreListeners = new coreListenersClass(dispatcher, moduleData, systemPrefs, cron, yesNo, users);
+        moduleLoader.getModules();
 
-    promise.all(data).then(([apiPort, domain, name, id]) => {
-        setInterval(() => {
-            systemModules.broadcast.send({
-                name: 'core'
-            }, {
-                ip: ip.address(),
-                apiPort,
-                domain,
-                name,
-                id
-            });
-        }, 120000)
+        return {
+            yesNo,
+            cron,
+            users,
+            broadcast,
+            moduleData,
+            systemPrefs,
+            dispatcher,
+            moduleLoader,
+            coreListeners,
+        }
+    }).then((systemModules) => {
+        const data = [
+                systemModules.moduleData.getPref(`interface`, `rpc-api`, `port`),
+                systemModules.moduleData.getPref(`interface`, `rpc-api`, `domain`),
+                systemModules.systemPrefs.get('name'),
+                systemModules.systemPrefs.get('id')
+            ];
+
+        promise.all(data).then(([apiPort, domain, name, id]) => {
+            setInterval(() => {
+                systemModules.broadcast.send({
+                    name: 'core'
+                }, {
+                    ip: ip.address(),
+                    apiPort,
+                    domain,
+                    name,
+                    id
+                });
+            }, 120000)
+        });
     });
-});
+}
 
