@@ -1,5 +1,5 @@
 class upgrade {
-	run() {
+	final() {
 		return this.interfacePrefData.updateAsync({}, {$set: {default_permission: ''}}, { multi: true });
 	}
 }

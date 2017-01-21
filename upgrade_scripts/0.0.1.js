@@ -1,5 +1,5 @@
 class upgrade {
-	run() {
+	final() {
 		return this.basePrefData.insertAsync([
             {
                 'name': 'default_permission',

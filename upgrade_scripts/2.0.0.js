@@ -1,7 +1,7 @@
 const crypto = require('crypto');
 
 class upgrade {
-	run() {
+	alpha1() {
         return this.interfacePrefData.findAsync({}).each((item) => {
             let newPrefs = {};
 

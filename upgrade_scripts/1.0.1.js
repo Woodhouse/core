@@ -1,5 +1,5 @@
 class upgrade {
-	run() {
+	final() {
 		return this.usersData.findAsync({}).map((user) => {
 			return this.usersData.insertAsync({
                 username: user.name,
