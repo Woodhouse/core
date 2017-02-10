@@ -31,7 +31,7 @@ const upgrade = new upgradeClass(systemData, interfacePrefData, pluginPrefData, 
 
 const upgradePromise = upgrade.run();
 
-if (args.indexOf('--upgrade-only')) {
+if (!args.includes('--upgrade-only')) {
     upgradePromise.then(() => {
         return basePrefData.findOneAsync({name: 'name'})
     }).catch((error) => {
