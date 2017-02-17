@@ -85,6 +85,14 @@ class upgrade {
             }]);
         });
     }
+
+    alpha2() {
+        return this.interfacePrefData.findOneAsync({name: 'shell'}).then((doc) => {
+            doc.default_permission = 'admin';
+
+            return this.interfacePrefData.updateAsync({_id: doc._id}, doc);
+        });
+    }
 }
 
 module.exports = upgrade;
