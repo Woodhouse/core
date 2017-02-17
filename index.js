@@ -29,6 +29,10 @@ const broadcastClass = require('./lib/broadcast.js');
 
 const upgrade = new upgradeClass(systemData, interfacePrefData, pluginPrefData, basePrefData, usersData, cronData);
 
+if (args.includes('--rollback-upgrade')) {
+    return upgrade.rollback();
+}
+
 const upgradePromise = upgrade.run();
 
 if (!args.includes('--upgrade-only')) {
