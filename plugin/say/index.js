@@ -9,7 +9,7 @@ class say {
 
     init() {
         this.listen('(say|tell) (:<message>.+?)', 'standard', (from, interfaceName, params) => {
-            return params[1];
+            return params.message;
         })
 
         this.listen('who steals cars(\\?|)', 'standard', (from, interfaceName) => {
