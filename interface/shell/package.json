@@ -8,7 +8,9 @@
   },
   "author": "Luke Bonaccorsi",
   "license": "MIT",
-  "bin": {"woodhouse": "./client.js"},
+  "bin": {
+    "woodhouse": "./client.js"
+  },
   "dependencies": {
     "node-ipc": "^8.10.2"
   }

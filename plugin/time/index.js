@@ -8,12 +8,17 @@ class time {
     }
 
     init() {
-        this.listen('what time is it(\\?|)', 'standard', () => {
-            return this.getSystemPref('timezone').then((timezone) => {
-                const currentTime = moment().tz(timezone).format('h:mmA');
+        this.listen({
+            id: 'time',
+            listener: 'what time is it(\\?|)',
+            role: 'standard',
+            command: () => {
+                return this.getSystemPref('timezone').then((timezone) => {
+                    const currentTime = moment().tz(timezone).format('h:mmA');
 
-                return `The time is ${currentTime}`;
-            })
+                    return `The time is ${currentTime}`;
+                })
+            }
         });
     }
 }

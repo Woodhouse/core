@@ -93,6 +93,16 @@ class upgrade {
             return this.interfacePrefData.updateAsync({_id: doc._id}, doc);
         });
     }
+
+    alpha3() {
+        return this.pluginPrefData.findAsync({$where: function() {
+            return typeof this.listeneraliases !== 'undefined';
+        }}).each((doc) => {
+            delete doc.listeneraliases;
+
+            return this.pluginPrefData.updateAsync({_id: doc._id}, doc);
+        })
+    }
 }
 
 module.exports = upgrade;

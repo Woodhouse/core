@@ -8,13 +8,24 @@ class say {
     }
 
     init() {
-        this.listen('(say|tell) (:<message>.+?)', 'standard', (from, interfaceName, params) => {
-            return params.message;
+        var self = this;
+        self.listen({
+            id: 'say',
+            listener: '(say|tell) (:<message>.+?)',
+            role: 'standard',
+            command: (from, interfaceName, params) => {
+                return params.message;
+            }
         })
 
-        this.listen('who steals cars(\\?|)', 'standard', (from, interfaceName) => {
-            // Archer quote: https://www.youtube.com/watch?v=h8P2BPHmqsg
-            return `GYPPOS!`;
+        self.listen({
+            id: 'steals',
+            listener: 'who steals cars(\\?|)',
+            role: 'standard',
+            command: (from, interfaceName) => {
+                // Archer quote: https://www.youtube.com/watch?v=h8P2BPHmqsg
+                return `GYPPOS!`;
+            }
         })
     }
 }
