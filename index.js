@@ -44,6 +44,7 @@ if (!args.includes('--upgrade-only')) {
     }).then(function(instanceName){
         const yesNo = new yesNoClass();
         const cron = new cronClass(cronData);
+        cron.loadSaved();
         const users = new usersClass(usersData);
         const broadcast = new broadcastClass();
         const moduleData = new moduleDataClass(interfacePrefData, pluginPrefData);
