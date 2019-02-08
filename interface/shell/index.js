@@ -14,14 +14,16 @@ class shell {
     }
 
     init() {
+        this.sockets = [];
         this.getSystemPref(`name`).then((name) => {
             ipc.serve(() => {
                 ipc.server.on(`app.message`, (message, socket) => {
-                    this.messageRecieved(socket, `${name} ${message}`, `admin`);
+                    this.sockets.push(socket);
+                    this.messageRecieved(this.sockets.length - 1, `${name} ${message}`, `admin`);
                 });
 
                 this.addMessageSender((socket, message) => {
-                    ipc.server.emit(socket, `app.message`, message);
+                    ipc.server.emit(this.sockets[socket], `app.message`, message);
                 });
             });
 
