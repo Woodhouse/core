@@ -1,7 +1,5 @@
-# The V2 branch is not stable and is still under development!
-
 # Woodhouse
-
+=======
 Woodhouse is an extendable, modular bot inspired by [GitHub's Hubot](https://github.com/github/hubot) that allows you to automate tasks or call APIs through plugins and by using interface modules, it can connect to diferent services for you to communicate with it.
 
 ## Installation
