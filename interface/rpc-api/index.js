@@ -87,11 +87,11 @@ class Api {
                 clients.findOneAsync({key: request.headers[`x-auth-key`]}).then((doc) => {
                     if (!doc) {
                         response.statusCode = 401;
-                        response.end(`This auth key is invalid`);
+                        return response.end(`This auth key is invalid`);
                     }
 
                     if (request.method !== `POST`) {
-                        response.end(`RPC-API Usage: POST to this endpoint with a full command as the body, including the instance name, e.g 'woodhouse say hello'.`);
+                        return response.end(`RPC-API Usage: POST to this endpoint with a full command as the body, including the instance name, e.g 'woodhouse say hello'.`);
                     }
 
                     let body = ``;
